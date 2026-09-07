@@ -126,24 +126,25 @@ Rectangle {
     // Navigation
     // -------------------------------------------------------------------------
     // 0 = Startseite
-    // 1 = Encrypt / Decrypt
-    // 2 = Key Management
+    // 1 = Verschlüsseln / Entschlüsseln
     property int currentPage: 0
 
     function showStartPage() {
-        console.log("### NAVIGATION: START PAGE ###")
+        console.log("### NAVIGATION: STARTSEITE ###")
         currentPage = 0
+        keyManagerPopup.close()
     }
 
     function showCryptoPage() {
-        console.log("### NAVIGATION: ENCRYPT / DECRYPT ###")
+        console.log("### NAVIGATION: VERSCHLÜSSELN / ENTSCHLÜSSELN ###")
         currentPage = 1
+        keyManagerPopup.close()
     }
 
     function showKeyManager() {
-        console.log("### NAVIGATION: KEY MANAGEMENT ###")
-        currentPage = 2
-        loadKeys()
+        console.log("### NAVIGATION: SCHLÜSSELVERWALTUNG ###")
+        currentPage = 0
+        keyManagerPopup.open()
     }
 
     function encodeText() {
@@ -154,13 +155,13 @@ Rectangle {
                     inputText.text.length)
 
         if (selectedFingerprint === "") {
-            console.log("### ENCODE FEHLER: KEIN KEY AUSGEWÄHLT ###")
-            output.text = "FEHLER: Bitte zuerst einen Select Key."
+            console.log("### ENCODE FEHLER: KEIN SCHLÜSSEL AUSGEWÄHLT ###")
+            output.text = "FEHLER: Bitte zuerst einen Schlüssel auswählen."
             return
         }
 
         if (inputText.text === "") {
-            console.log("### ENCODE FEHLER: INPUT LEER ###")
+            console.log("### ENCODE FEHLER: EINGABE LEER ###")
             output.text = "FEHLER: Bitte Text eingeben."
             return
         }
@@ -187,7 +188,7 @@ Rectangle {
                     inputText.text.length)
 
         if (inputText.text === "") {
-            console.log("### DECODE FEHLER: INPUT LEER ###")
+            console.log("### DECODE FEHLER: EINGABE LEER ###")
             output.text = "FEHLER: Bitte verschlüsselten Text eingeben."
             return
         }
@@ -379,13 +380,13 @@ Rectangle {
             spacing: 15
 
             Text {
-                text: "Installed Keys"
+                text: "Installierte Schlüssel"
                 font.pixelSize: 36
                 color: "black"
             }
 
             Text {
-                text: "Count: " + keyList.length
+                text: "Anzahl: " + keyList.length
                 font.pixelSize: 24
                 color: "gray"
             }
@@ -394,7 +395,7 @@ Rectangle {
                 id: keyListView
 
                 width: parent.width
-                height: parent.height - 270
+                height: parent.height - 150
 
                 clip: true
                 spacing: 16
@@ -423,7 +424,7 @@ Rectangle {
                             width: parent.width
                             text: modelData.name !== ""
                                   ? modelData.name
-                                  : "(no name)"
+                                  : "(kein Name)"
                             font.pixelSize: 25
                             color: "black"
                             elide: Text.ElideRight
@@ -433,7 +434,7 @@ Rectangle {
                             width: parent.width
                             text: modelData.email !== ""
                                   ? modelData.email
-                                  : "(no email)"
+                                  : "(keine E-Mail)"
                             font.pixelSize: 21
                             color: "gray"
                             elide: Text.ElideRight
@@ -449,8 +450,8 @@ Rectangle {
 
                         Text {
                             text: modelData.hasSecretKey
-                                  ? "Private key available"
-                                  : "Public key only"
+                                  ? "Privater Schlüssel vorhanden"
+                                  : "Nur öffentlicher Schlüssel"
                             font.pixelSize: 18
                             color: modelData.hasSecretKey
                                    ? "black"
@@ -468,7 +469,7 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.rightMargin: 14
 
-                        text: "Delete"
+                        text: "Löschen"
 
                         onClicked: {
                             console.log("### DELETE BUTTON CLICKED ###")
@@ -502,40 +503,17 @@ Rectangle {
                     anchors.centerIn: parent
                     visible: keyList.length === 0
 
-                    text: "No keys installed."
-                    font.pixelSize: 24
+                    text: "Keine Schlüssel installiert."
+                    font.pixelSize: 20
                     color: "gray"
                 }
             }
 
             Button {
-                id: keyManagerImportButton
                 width: parent.width
-                height: 110
+                height: 55
 
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: keyManagementBackButton.top
-                anchors.bottomMargin: 12
-
-                text: "Import Key"
-
-                onClicked: {
-                    console.log("### KEY IMPORT BUTTON ###")
-                    importKeyDesktopOrTouch()
-                }
-            }
-
-            Button {
-                id: keyManagerBackButton
-                width: parent.width
-                height: 110
-
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-
-                text: "←  Back"
+                text: "←  Zurück"
 
                 onClicked: {
                     console.log("### KEY MANAGER: BACK TO START ###")
@@ -553,233 +531,12 @@ Rectangle {
 
 
     // -------------------------------------------------------------------------
-    // KEY MANAGEMENT PAGE
-    // -------------------------------------------------------------------------
-    Item {
-        id: keyManagementPage
-
-        anchors.fill: parent
-        visible: !keyPicker.visible && currentPage === 2
-        z: 100
-
-        Rectangle {
-            anchors.fill: parent
-            color: "white"
-        }
-
-        Item {
-            anchors.fill: parent
-            anchors.margins: 24
-
-            Rectangle {
-                id: keyManagementPageHeader
-
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-
-                height: 70
-                radius: 12
-                color: "#2c2c2c"
-
-                Text {
-                    anchors.centerIn: parent
-
-                    text: "Key Management"
-                    font.pixelSize: 30
-                    font.bold: true
-                    color: "white"
-                }
-            }
-
-            Text {
-                id: keyManagementCount
-
-                anchors.top: keyManagementPageHeader.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.topMargin: 16
-
-                text: "Installed Keys: " + keyList.length
-                font.pixelSize: 22
-                color: "#444444"
-            }
-
-            ListView {
-                id: keyManagementList
-
-                anchors.top: keyManagementCount.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: keyManagementImportButton.top
-
-                anchors.topMargin: 12
-                anchors.bottomMargin: 12
-
-                clip: true
-                spacing: 12
-
-                model: keyList
-
-                delegate: Rectangle {
-                    width: keyManagementList.width
-                    height: 160
-
-                    color: "#f3f3f3"
-                    border.color: "#cccccc"
-                    border.width: 1
-                    radius: 8
-
-                    Column {
-                        anchors.left: parent.left
-                        anchors.right: deleteKeyButton.left
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        anchors.margins: 14
-
-                        spacing: 6
-
-                        Text {
-                            width: parent.width
-
-                            text: modelData.name !== ""
-                                  ? modelData.name
-                                  : "(no name)"
-
-                            font.pixelSize: 23
-                            color: "black"
-                            elide: Text.ElideRight
-                        }
-
-                        Text {
-                            width: parent.width
-
-                            text: modelData.email !== ""
-                                  ? modelData.email
-                                  : "(no email)"
-
-                            font.pixelSize: 19
-                            color: "gray"
-                            elide: Text.ElideRight
-                        }
-
-                        Text {
-                            width: parent.width
-
-                            text: "Fingerprint: " + modelData.fingerprint
-
-                            font.pixelSize: 14
-                            color: "gray"
-                            elide: Text.ElideMiddle
-                        }
-
-                        Text {
-                            text: modelData.hasSecretKey
-                                  ? "Private key available"
-                                  : "Public key only"
-
-                            font.pixelSize: 17
-
-                            color: modelData.hasSecretKey
-                                   ? "black"
-                                   : "gray"
-                        }
-                    }
-
-                    Button {
-                        id: deleteKeyButton
-
-                        width: 120
-                        height: 100
-
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.rightMargin: 12
-
-                        text: "Delete"
-
-                        onClicked: {
-                            console.log("### KEY MANAGEMENT DELETE ###")
-
-                            var result =
-                                gpgBackend.deleteKey(
-                                    modelData.fingerprint
-                                )
-
-                            console.log("### DELETE RESULT ###", result)
-
-                            output.text = result
-                            loadKeys()
-                        }
-                    }
-                }
-
-                Text {
-                    anchors.centerIn: parent
-
-                    visible: keyList.length === 0
-
-                    text: "No keys installed."
-                    font.pixelSize: 24
-                    color: "gray"
-                }
-            }
-
-            Button {
-                id: keyManagementImportButton
-
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: keyManagementBackButton.top
-
-                anchors.bottomMargin: 12
-
-                height: 110
-
-                text: "Import Key"
-                font.pixelSize: 18
-
-                onClicked: {
-                    console.log("### KEY MANAGEMENT: IMPORT KEY ###")
-                    importKeyDesktopOrTouch()
-                }
-            }
-
-            Button {
-                id: keyManagementBackButton
-
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-
-                height: 110
-
-                text: "←  Back"
-                font.pixelSize: 18
-
-                onClicked: {
-                    console.log("### KEY MANAGEMENT: BACK ###")
-                    showStartPage()
-                }
-            }
-        }
-
-        onVisibleChanged: {
-            if (visible) {
-                console.log("### KEY MANAGEMENT PAGE OPENED ###")
-                loadKeys()
-            }
-        }
-    }
-
-
-    // -------------------------------------------------------------------------
     // HAMBURGER-MENÜ
     // -------------------------------------------------------------------------
     Item {
         id: menuButton
-        width: 200
-        height: 200
+        width: 64
+        height: 64
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.topMargin: 16
@@ -788,7 +545,7 @@ Rectangle {
 
         Rectangle {
             anchors.fill: parent
-            radius: 16
+            radius: 12
             color: "#eeeeee"
             border.color: "#cccccc"
             border.width: 1
@@ -796,7 +553,7 @@ Rectangle {
             Text {
                 anchors.centerIn: parent
                 text: "☰"
-                font.pixelSize: 56
+                font.pixelSize: 32
                 color: "#333333"
             }
 
@@ -816,8 +573,8 @@ Rectangle {
 
         x: parent.width - width - 16
         y: 16
-        width: Math.min(600, parent.width - 32)
-        padding: 16
+        width: Math.min(420, parent.width - 32)
+        padding: 12
         modal: true
         focus: true
 
@@ -834,9 +591,9 @@ Rectangle {
 
             Text {
                 width: parent.width
-                height: 64
+                height: 42
                 text: "GPG Text"
-                font.pixelSize: 30
+                font.pixelSize: 24
                 font.bold: true
                 color: "#333333"
                 verticalAlignment: Text.AlignVCenter
@@ -851,9 +608,9 @@ Rectangle {
 
             Button {
                 width: parent.width
-                height: 100
-                text: "Encrypt / Decrypt"
-                font.pixelSize: 24
+                height: 56
+                text: "Verschlüsseln / Entschlüsseln"
+                font.pixelSize: 17
 
                 onClicked: {
                     console.log("### MENU: CRYPTO ###")
@@ -864,9 +621,9 @@ Rectangle {
 
             Button {
                 width: parent.width
-                height: 100
-                text: "Key Management"
-                font.pixelSize: 24
+                height: 56
+                text: "Schlüsselverwaltung"
+                font.pixelSize: 17
 
                 onClicked: {
                     console.log("### MENU: KEY MANAGER ###")
@@ -883,9 +640,9 @@ Rectangle {
 
             Button {
                 width: parent.width
-                height: 100
-                text: "Exit"
-                font.pixelSize: 24
+                height: 56
+                text: "Beenden"
+                font.pixelSize: 17
 
                 onClicked: {
                     console.log("### MENU: EXIT ###")
@@ -915,7 +672,6 @@ Rectangle {
             anchors.margins: 24
             spacing: 20
 
-            // Kopfbereich
             Rectangle {
                 width: parent.width
                 height: 90
@@ -936,108 +692,86 @@ Rectangle {
                     }
 
                     Text {
-                        text: "OpenPGP text encryption and decryption"
+                        text: "OpenPGP-Text verschlüsseln und entschlüsseln"
                         font.pixelSize: 15
                         color: "#dddddd"
                     }
                 }
             }
 
-            // Motto
-            Rectangle {
+            Text {
                 width: parent.width
-                height: 90
-                color: "#f3f3f3"
-                border.color: "#cccccc"
-                border.width: 1
-                radius: 8
+                text: "Was möchtest du tun?"
+                font.pixelSize: 26
+                font.bold: true
+                color: "#333333"
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-                Column {
-                    width: parent.width
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: 8
+            Button {
+                width: parent.width
+                height: 80
+                text: "🔐  Verschlüsseln / Entschlüsseln"
+                font.pixelSize: 20
 
-                    Text {
-                        width: parent.width
-                        text: "OpenPGP – Trust through encryption."
-                        font.pixelSize: 22
-                        font.bold: true
-                        color: "#333333"
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-
-                    Text {
-                        width: parent.width
-                        text: "Security begins where confidential remains confidential."
-                        font.pixelSize: 15
-                        font.italic: true
-                        color: "#777777"
-                        horizontalAlignment: Text.AlignHCenter
-                    }
+                onClicked: {
+                    console.log("### STARTSEITE: CRYPTO BUTTON ###")
+                    showCryptoPage()
                 }
             }
 
-            Rectangle {
+            Button {
                 width: parent.width
-                implicitHeight: commandColumn.implicitHeight + 32
+                height: 80
+                text: "🔑  Schlüsselverwaltung"
+                font.pixelSize: 20
 
-                color: "#1e1e1e"
-                border.color: "#444444"
-                border.width: 1
-                radius: 8
-
-                Column {
-                    id: commandColumn
-
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                    anchors.margins: 16
-
-                    spacing: 4
-
-                    Text {
-                        text: "GPG-Befehle"
-                        font.pixelSize: 24
-                        font.bold: true
-                        font.family: "Monospace"
-                        color: "#eeeeee"
-                    }
-
-                    Text {
-                        text: "Import Key:\n"
-                            + "$ gpg --import <schlüsseldatei>\n\n"
-                            + "List Keys:\n"
-                            + "$ gpg --list-keys\n\n"
-                            + "Encrypt text:\n"
-                            + "$ echo \"Text\" | gpg --armor --encrypt --recipient <KEY-ID>\n\n"
-                            + "Decrypt text:\n"
-                            + "$ echo \"encrypted text\" | gpg --decrypt"
-
-                        font.pixelSize: 15
-                        font.family: "Monospace"
-                        color: "#66ff66"
-                    }
+                onClicked: {
+                    console.log("### STARTSEITE: KEY MANAGER BUTTON ###")
+                    showKeyManager()
                 }
+            }
+
+            Item {
+                width: 1
+                height: 10
+            }
+
+            Button {
+                width: parent.width
+                height: 60
+                text: "Beenden"
+                font.pixelSize: 17
+
+                onClicked: {
+                    console.log("### EXIT BUTTON CLICKED ###")
+                    Qt.quit()
+                }
+            }
+
+            Item {
+                width: 1
+                height: 1
             }
         }
     }
 
     // -------------------------------------------------------------------------
-    // Back-Button der Crypto-Seite
+    // Zurück-Button der Crypto-Seite
     // -------------------------------------------------------------------------
     Button {
         id: cryptoBackButton
-        text: "←  Back"
-        height: 110
+        text: "←"
+        width: 52
+        height: 52
+        anchors.top: parent.top
         anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: 5
-        anchors.rightMargin: 5
-        anchors.bottomMargin: 5
+        anchors.topMargin: 16
+        anchors.leftMargin: 16
         z: 150
         visible: !keyPicker.visible && currentPage === 1
+
+        font.pixelSize: 28
 
         onClicked: {
             console.log("### CRYPTO: BACK TO START ###")
@@ -1058,8 +792,7 @@ Rectangle {
             top: parent.top
             left: parent.left
             right: parent.right
-            bottom: cryptoBackButton.top
-
+            bottom: parent.bottom
             margins: 0
         }
 
@@ -1097,7 +830,7 @@ Rectangle {
                     }
 
                     Text {
-                        text: "OpenPGP text encryption and decryption"
+                        text: "OpenPGP-Text verschlüsseln und entschlüsseln"
                         font.pixelSize: 15
                         color: "#dddddd"
                         elide: Text.ElideRight
@@ -1106,10 +839,22 @@ Rectangle {
                 }
             }
 
+            // Beenden --------------------------------------------------------
+            Button {
+                width: parent.width
+                height: 48
+                text: "Beenden"
+                font.pixelSize: 17
+
+                onClicked: {
+                    console.log("### EXIT BUTTON CLICKED ###")
+                    Qt.quit()
+                }
+            }
 
             // Schlüssel ------------------------------------------------------
             Text {
-                text: "KEY"
+                text: "SCHLÜSSEL"
                 font.pixelSize: 14
                 font.bold: true
                 color: "#666666"
@@ -1130,7 +875,7 @@ Rectangle {
                     spacing: 8
 
                     Text {
-                        text: "Encryption Key"
+                        text: "Schlüssel für Verschlüsselung"
                         font.pixelSize: 15
                         color: "#666666"
                     }
@@ -1154,11 +899,11 @@ Rectangle {
                         displayText: currentIndex >= 0 && currentIndex < keyList.length
                                     ? ((keyList[currentIndex].name !== ""
                                         ? keyList[currentIndex].name
-                                        : "(no name)") +
+                                        : "(kein Name)") +
                                        (keyList[currentIndex].email !== ""
                                         ? " <" + keyList[currentIndex].email + ">"
                                         : ""))
-                                    : "Bitte Select Key ..."
+                                    : "Bitte Schlüssel auswählen ..."
 
                         font.pixelSize: 18
 
@@ -1174,7 +919,7 @@ Rectangle {
                                 Text {
                                     text: modelData.name !== ""
                                           ? modelData.name
-                                          : "(no name)"
+                                          : "(kein Name)"
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: "black"
@@ -1185,7 +930,7 @@ Rectangle {
                                 Text {
                                     text: modelData.email !== ""
                                           ? modelData.email
-                                          : "(no email)"
+                                          : "(keine E-Mail)"
                                     font.pixelSize: 15
                                     color: "#666666"
                                     elide: Text.ElideRight
@@ -1235,7 +980,7 @@ Rectangle {
                                 return ""
 
                             var key = keyList[keyComboBox.currentIndex]
-                            var name = key.name !== "" ? key.name : "(no name)"
+                            var name = key.name !== "" ? key.name : "(kein Name)"
                             var email = key.email !== "" ? " <" + key.email + ">" : ""
                             return "✓ " + name + email
                         }
@@ -1258,10 +1003,38 @@ Rectangle {
                 }
             }
 
+            Row {
+                width: parent.width
+                spacing: 12
+
+                Button {
+                    width: (parent.width - parent.spacing) / 2
+                    height: 54
+                    text: "Schlüssel importieren"
+                    font.pixelSize: 17
+
+                    onClicked: {
+                        console.log("### IMPORT KEY BUTTON ###")
+                        importKeyDesktopOrTouch()
+                    }
+                }
+
+                Button {
+                    width: (parent.width - parent.spacing) / 2
+                    height: 54
+                    text: "Schlüssel verwalten"
+                    font.pixelSize: 17
+
+                    onClicked: {
+                        console.log("### KEY MANAGER BUTTON ###")
+                        keyManagerPopup.open()
+                    }
+                }
+            }
 
             // Eingabe --------------------------------------------------------
             Text {
-                text: "INPUT"
+                text: "EINGABE"
                 font.pixelSize: 14
                 font.bold: true
                 color: "#666666"
@@ -1282,9 +1055,9 @@ Rectangle {
                     anchors.fill: parent
                     anchors.margins: 12
 
-                    font.pixelSize: 24
+                    font.pixelSize: 20
                     wrapMode: TextArea.Wrap
-                    placeholderText: "Enter plaintext or encrypted text ..."
+                    placeholderText: "Klartext oder verschlüsselten Text eingeben ..."
                     color: "black"
                     background: null
                     selectByMouse: true
@@ -1308,7 +1081,7 @@ Rectangle {
 
                 Button {
                     width: (parent.width - parent.spacing) / 2
-                    height: 128
+                    height: 64
                     text: "🔒  Verschlüsseln"
                     font.pixelSize: 18
 
@@ -1320,7 +1093,7 @@ Rectangle {
 
                 Button {
                     width: (parent.width - parent.spacing) / 2
-                    height: 128
+                    height: 64
                     text: "🔓  Entschlüsseln"
                     font.pixelSize: 18
 
@@ -1333,13 +1106,13 @@ Rectangle {
 
             Row {
                 width: parent.width
-                spacing: 12
+                spacing: 8
 
                 Button {
-                    width: (parent.width - 24) / 3
-                    height: 96
-                    text: "Copy"
-                    font.pixelSize: 18
+                    width: (parent.width - parent.spacing - 16) / 3
+                    height: 48
+                    text: "Kopieren"
+                    font.pixelSize: 15
 
                     onClicked: {
                         inputText.selectAll()
@@ -1353,10 +1126,10 @@ Rectangle {
                 }
 
                 Button {
-                    width: (parent.width - 24) / 3
-                    height: 96
-                    text: "Paste"
-                    font.pixelSize: 18
+                    width: (parent.width - parent.spacing - 16) / 3
+                    height: 48
+                    text: "Einfügen"
+                    font.pixelSize: 15
 
                     onClicked: {
                         console.log("### INPUT PASTE BUTTON ###")
@@ -1367,10 +1140,10 @@ Rectangle {
                 }
 
                 Button {
-                    width: (parent.width - 24) / 3
-                    height: 96
-                    text: "Clear"
-                    font.pixelSize: 18
+                    width: (parent.width - parent.spacing - 16) / 3
+                    height: 48
+                    text: "Leeren"
+                    font.pixelSize: 15
 
                     onClicked: {
                         inputText.clear()
@@ -1381,7 +1154,7 @@ Rectangle {
 
             // Ausgabe --------------------------------------------------------
             Text {
-                text: "OUTPUT"
+                text: "AUSGABE"
                 font.pixelSize: 14
                 font.bold: true
                 color: "#666666"
@@ -1402,7 +1175,7 @@ Rectangle {
                     anchors.fill: parent
                     anchors.margins: 12
 
-                    font.pixelSize: 24
+                    font.pixelSize: 20
                     wrapMode: TextArea.Wrap
                     readOnly: true
                     selectByMouse: true
@@ -1428,7 +1201,7 @@ Rectangle {
                 Button {
                     width: (parent.width - parent.spacing * 2) / 3
                     height: 48
-                    text: "Copy"
+                    text: "Kopieren"
                     font.pixelSize: 15
 
                     onClicked: {
@@ -1445,7 +1218,7 @@ Rectangle {
                 Button {
                     width: (parent.width - parent.spacing * 2) / 3
                     height: 48
-                    text: "Paste"
+                    text: "Einfügen"
                     font.pixelSize: 15
 
                     onClicked: {
@@ -1459,7 +1232,7 @@ Rectangle {
                 Button {
                     width: (parent.width - parent.spacing * 2) / 3
                     height: 48
-                    text: "Clear"
+                    text: "Leeren"
                     font.pixelSize: 15
 
                     onClicked: {
@@ -1488,10 +1261,10 @@ Rectangle {
             width: parent.width
             height: 60
 
-            text: "Import Key"
+            text: "Schlüssel importieren"
 
             onClicked: {
-                console.log("### KEY IMPORT BUTTON ###")
+                console.log("### SCHLÜSSEL IMPORT BUTTON ###")
                 importKeyDesktopOrTouch()
             }
         }
@@ -1503,7 +1276,7 @@ Rectangle {
             text: "Öffentliche Schlüssel"
 
             onClicked: {
-                console.log("### ÖFFENTLICHE KEY BUTTON ###")
+                console.log("### ÖFFENTLICHE SCHLÜSSEL BUTTON ###")
 
                 var keys = gpgBackend.listPublicKeys()
 
@@ -1517,10 +1290,10 @@ Rectangle {
             width: parent.width
             height: 60
 
-            text: "Manage Keys"
+            text: "Schlüssel verwalten"
 
             onClicked: {
-                console.log("### KEY VERWALTEN BUTTON ###")
+                console.log("### SCHLÜSSEL VERWALTEN BUTTON ###")
                 keyManagerPopup.open()
             }
         }

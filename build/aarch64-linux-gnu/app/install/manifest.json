@@ -1,0 +1,16 @@
+{
+    "name": "gpg-text.com.tino.gpgtext",
+    "description": "GPG Text",
+    "architecture": "arm64",
+    "title": "GPG Text",
+    "hooks": {
+        "gpg-text": {
+            "apparmor": "gpg-text.apparmor",
+            "desktop": "gpg-text.desktop",
+            "content-hub": "gpg-text-contenthub.json"
+        }
+    },
+    "version": "1.0.0",
+    "maintainer": "Tino <schurzmann@gmail.com>",
+    "framework": "ubuntu-sdk-20.04"
+}

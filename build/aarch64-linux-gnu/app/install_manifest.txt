@@ -1,0 +1,6 @@
+/././gpg-text
+/./assets/gpg-text.svg
+/././manifest.json
+/././gpg-text.desktop
+/././gpg-text.apparmor
+/././gpg-text-contenthub.json
