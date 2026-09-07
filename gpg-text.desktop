@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=GPG Text
+Exec=gpg-text
+Icon=assets/gpg-text.svg
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
+X-Ubuntu-Splash-Color=#000000
