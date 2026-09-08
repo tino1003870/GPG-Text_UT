@@ -556,7 +556,7 @@ QString GpgBackend::encryptText(const QString &text,
 }
 
 
-QString GpgBackend::decryptText(const QString &text)
+QString GpgBackend::decryptText(const QString &text, const QString &passphrase)
 {
     qDebug() << "### DECRYPT TEXT START ###";
     qDebug() << "### DECRYPT TEXT LENGTH ###" << text.length();
@@ -575,6 +575,8 @@ QString GpgBackend::decryptText(const QString &text)
                          << "--yes"
                          << "--pinentry-mode"
                          << "loopback"
+                         << "--passphrase-fd"
+                         << "0"
                          << "--decrypt");
 
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -596,6 +598,8 @@ QString GpgBackend::decryptText(const QString &text)
 
     qDebug() << "### DECRYPT GPG GESTARTET ###";
 
+    process.write(passphrase.toUtf8());
+    process.write("\n");
     process.write(text.toUtf8());
     process.closeWriteChannel();
 

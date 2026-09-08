@@ -120,6 +120,7 @@ Rectangle {
     }
 
     property string pendingImportUrl: ""
+    property string passphraseMode: ""
     property string selectedFingerprint: ""
 
     // -------------------------------------------------------------------------
@@ -192,20 +193,18 @@ Rectangle {
             return
         }
 
-        console.log("### DECODE GPG AUFRUF ###")
+        console.log("### DECODE: PASSPHRASE DIALOG ###")
 
-        var result = gpgBackend.decryptText(
-            inputText.text
-        )
+        passphraseMode = "decrypt"
+        passphraseField.text = ""
+        passphraseDialog.open()
 
-        console.log("### DECODE RESULT LENGTH ###",
-                    result.length)
-        console.log("### DECODE RESULT ###", result)
-
-        output.text = result
-
-        console.log("### DECODE DONE ###")
+        Qt.callLater(function() {
+            passphraseField.forceActiveFocus()
+            passphraseField.openSoftwareInputPanel()
+        })
     }
+
 
     property var keyList: []
 
@@ -250,7 +249,10 @@ Rectangle {
                 inputMethodHints: Qt.ImhHiddenText
 
                 onAccepted: {
-                    importWithPassphrase()
+                    if (passphraseMode === "decrypt")
+                        decryptWithPassphrase()
+                    else
+                        importWithPassphrase()
                 }
 
     Component.onCompleted: {
@@ -270,6 +272,7 @@ Rectangle {
                     onClicked: {
                         passphraseField.text = ""
                         pendingImportUrl = ""
+                        passphraseMode = ""
                         passphraseDialog.close()
                     }
                 }
@@ -277,10 +280,15 @@ Rectangle {
                 Button {
                     width: (parent.width - 10) / 2
                     height: 50
-                    text: "Importieren"
+                    text: passphraseMode === "decrypt"
+                          ? "Entschlüsseln"
+                          : "Importieren"
 
                     onClicked: {
-                        importWithPassphrase()
+                        if (passphraseMode === "decrypt")
+                            decryptWithPassphrase()
+                        else
+                            importWithPassphrase()
                     }
                 }
             }
@@ -334,6 +342,29 @@ Rectangle {
         keyPicker.visible = true
     }
 
+
+    function decryptWithPassphrase() {
+        console.log("### DECRYPT MIT PASSPHRASE ###")
+        console.log("### DECRYPT INPUT LENGTH ###",
+                    inputText.text.length)
+
+        var result = gpgBackend.decryptText(
+            inputText.text,
+            passphraseField.text
+        )
+
+        console.log("### DECRYPT RESULT LENGTH ###",
+                    result.length)
+        console.log("### DECRYPT RESULT ###", result)
+
+        output.text = result
+
+        passphraseField.text = ""
+        passphraseMode = ""
+        passphraseDialog.close()
+
+        console.log("### DECRYPT DONE ###")
+    }
 
     function importWithPassphrase() {
         if (pendingImportUrl === "")
