@@ -53,10 +53,10 @@ RM = /opt/cmake/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tino/code/k/gpg-text2
+CMAKE_SOURCE_DIR = /home/tino/code/k/gpg-text
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app
+CMAKE_BINARY_DIR = /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app
 
 # Utility rule file for gpg-text_autogen.
 
@@ -67,8 +67,8 @@ include CMakeFiles/gpg-text_autogen.dir/compiler_depend.make
 include CMakeFiles/gpg-text_autogen.dir/progress.make
 
 CMakeFiles/gpg-text_autogen:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC for target gpg-text"
-	/opt/cmake/bin/cmake -E cmake_autogen /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/AutogenInfo.json Release
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC for target gpg-text"
+	/opt/cmake/bin/cmake -E cmake_autogen /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/AutogenInfo.json Release
 
 gpg-text_autogen: CMakeFiles/gpg-text_autogen
 gpg-text_autogen: CMakeFiles/gpg-text_autogen.dir/build.make
@@ -83,6 +83,6 @@ CMakeFiles/gpg-text_autogen.dir/clean:
 .PHONY : CMakeFiles/gpg-text_autogen.dir/clean
 
 CMakeFiles/gpg-text_autogen.dir/depend:
-	cd /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tino/code/k/gpg-text2 /home/tino/code/k/gpg-text2 /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tino/code/k/gpg-text /home/tino/code/k/gpg-text /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/gpg-text_autogen.dir/depend
 

@@ -1,8 +1,8 @@
-/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text.dir
-/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/edit_cache.dir
-/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/rebuild_cache.dir
-/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/list_install_components.dir
-/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/install.dir
-/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/install/local.dir
-/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/install/strip.dir
-/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir
+/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text.dir
+/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/edit_cache.dir
+/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/rebuild_cache.dir
+/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/list_install_components.dir
+/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/install.dir
+/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/install/local.dir
+/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/install/strip.dir
+/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir

@@ -1,8 +1,8 @@
 CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o: \
- /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp \
+ /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp \
  /usr/aarch64-linux-gnu/include/stdc-predef.h \
- /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/EWIEGA46WW/moc_GpgBackend.cpp \
- /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/EWIEGA46WW/../../../../../GpgBackend.h \
+ /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/EWIEGA46WW/moc_GpgBackend.cpp \
+ /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/EWIEGA46WW/../../../../../GpgBackend.h \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/QObject \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/qobject.h \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/qobjectdefs.h \

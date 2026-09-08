@@ -1,5 +1,5 @@
 CMakeFiles/gpg-text.dir/GpgBackend.cpp.o: \
- /home/tino/code/k/gpg-text2/GpgBackend.cpp \
+ /home/tino/code/k/gpg-text/GpgBackend.cpp \
  /usr/aarch64-linux-gnu/include/stdc-predef.h \
  /usr/include/aarch64-linux-gnu/qt5/QtGui/QGuiApplication \
  /usr/include/aarch64-linux-gnu/qt5/QtGui/qguiapplication.h \
@@ -346,7 +346,7 @@ CMakeFiles/gpg-text.dir/GpgBackend.cpp.o: \
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qsizepolicy.h \
  /usr/include/aarch64-linux-gnu/qt5/QtGui/qcursor.h \
  /usr/include/aarch64-linux-gnu/qt5/QtGui/qkeysequence.h \
- /home/tino/code/k/gpg-text2/GpgBackend.h \
+ /home/tino/code/k/gpg-text/GpgBackend.h \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/QObject \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/qobject.h \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/QString \

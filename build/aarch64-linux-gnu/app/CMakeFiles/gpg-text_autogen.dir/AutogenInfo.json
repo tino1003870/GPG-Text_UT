@@ -1,15 +1,15 @@
 {
-	"BUILD_DIR" : "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen",
-	"CMAKE_BINARY_DIR" : "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app",
-	"CMAKE_CURRENT_BINARY_DIR" : "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app",
-	"CMAKE_CURRENT_SOURCE_DIR" : "/home/tino/code/k/gpg-text2",
+	"BUILD_DIR" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen",
+	"CMAKE_BINARY_DIR" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/tino/code/k/gpg-text",
 	"CMAKE_EXECUTABLE" : "/opt/cmake/bin/cmake",
 	"CMAKE_LIST_FILES" : 
 	[
-		"/home/tino/code/k/gpg-text2/CMakeLists.txt",
-		"/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/3.22.3/CMakeSystem.cmake",
+		"/home/tino/code/k/gpg-text/CMakeLists.txt",
+		"/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/3.22.3/CMakeSystem.cmake",
 		"/opt/cmake/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake",
-		"/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/3.22.3/CMakeCXXCompiler.cmake",
+		"/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/3.22.3/CMakeCXXCompiler.cmake",
 		"/opt/cmake/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake",
 		"/opt/cmake/share/cmake-3.22/Modules/CMakeGenericSystem.cmake",
 		"/opt/cmake/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake",
@@ -85,23 +85,23 @@
 		"/usr/lib/aarch64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake",
 		"/usr/lib/aarch64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake",
 		"/opt/cmake/share/cmake-3.22/Modules/CMakeParseArguments.cmake",
-		"/home/tino/code/k/gpg-text2/qml.qrc"
+		"/home/tino/code/k/gpg-text/qml.qrc"
 	],
-	"CMAKE_SOURCE_DIR" : "/home/tino/code/k/gpg-text2",
+	"CMAKE_SOURCE_DIR" : "/home/tino/code/k/gpg-text",
 	"DEP_FILE" : "",
 	"DEP_FILE_RULE_NAME" : "",
 	"HEADERS" : 
 	[
 		[
-			"/home/tino/code/k/gpg-text2/GpgBackend.h",
+			"/home/tino/code/k/gpg-text/GpgBackend.h",
 			"Mu",
 			"EWIEGA46WW/moc_GpgBackend.cpp",
 			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/include",
-	"MOC_COMPILATION_FILE" : "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : 
 	[
 		"QT_CORE_LIB",
@@ -149,21 +149,21 @@
 		"-c",
 		"/opt/cmake/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
-	"MOC_SKIP" : [ "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/qrc_qml.cpp" ],
+	"MOC_SKIP" : [ "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/qrc_qml.cpp" ],
 	"MULTI_CONFIG" : false,
 	"PARALLEL" : 4,
-	"PARSE_CACHE_FILE" : "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/ParseCache.txt",
+	"PARSE_CACHE_FILE" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "/usr/lib/qt5/bin/moc",
 	"QT_UIC_EXECUTABLE" : "",
 	"QT_VERSION_MAJOR" : 5,
 	"QT_VERSION_MINOR" : 12,
-	"SETTINGS_FILE" : "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "/home/tino/code/k/gpg-text2/GpgBackend.cpp", "Mu", null ],
-		[ "/home/tino/code/k/gpg-text2/main.cpp", "Mu", null ]
+		[ "/home/tino/code/k/gpg-text/GpgBackend.cpp", "Mu", null ],
+		[ "/home/tino/code/k/gpg-text/main.cpp", "Mu", null ]
 	],
 	"VERBOSITY" : 0
 }

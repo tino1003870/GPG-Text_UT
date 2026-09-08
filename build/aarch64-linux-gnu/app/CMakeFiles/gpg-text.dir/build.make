@@ -53,10 +53,10 @@ RM = /opt/cmake/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tino/code/k/gpg-text2
+CMAKE_SOURCE_DIR = /home/tino/code/k/gpg-text
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app
+CMAKE_BINARY_DIR = /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app
 
 # Include any dependencies generated for this target.
 include CMakeFiles/gpg-text.dir/depend.make
@@ -72,64 +72,64 @@ include CMakeFiles/gpg-text.dir/flags.make
 qrc_qml.cpp: ../../../qml/Main.qml
 qrc_qml.cpp: qml.qrc.depends
 qrc_qml.cpp: ../../../qml.qrc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating qrc_qml.cpp"
-	/usr/lib/qt5/bin/rcc --name qml --output /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/qrc_qml.cpp /home/tino/code/k/gpg-text2/qml.qrc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating qrc_qml.cpp"
+	/usr/lib/qt5/bin/rcc --name qml --output /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/qrc_qml.cpp /home/tino/code/k/gpg-text/qml.qrc
 
 CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o: CMakeFiles/gpg-text.dir/flags.make
 CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o: gpg-text_autogen/mocs_compilation.cpp
 CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o: CMakeFiles/gpg-text.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o -MF CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o.d -o CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o -c /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o -MF CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o.d -o CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.o -c /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp
 
 CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.i"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp > CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.i
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp > CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.i
 
 CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.s"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp -o CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.s
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text_autogen/mocs_compilation.cpp -o CMakeFiles/gpg-text.dir/gpg-text_autogen/mocs_compilation.cpp.s
 
 CMakeFiles/gpg-text.dir/main.cpp.o: CMakeFiles/gpg-text.dir/flags.make
 CMakeFiles/gpg-text.dir/main.cpp.o: ../../../main.cpp
 CMakeFiles/gpg-text.dir/main.cpp.o: CMakeFiles/gpg-text.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/gpg-text.dir/main.cpp.o"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gpg-text.dir/main.cpp.o -MF CMakeFiles/gpg-text.dir/main.cpp.o.d -o CMakeFiles/gpg-text.dir/main.cpp.o -c /home/tino/code/k/gpg-text2/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/gpg-text.dir/main.cpp.o"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gpg-text.dir/main.cpp.o -MF CMakeFiles/gpg-text.dir/main.cpp.o.d -o CMakeFiles/gpg-text.dir/main.cpp.o -c /home/tino/code/k/gpg-text/main.cpp
 
 CMakeFiles/gpg-text.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gpg-text.dir/main.cpp.i"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tino/code/k/gpg-text2/main.cpp > CMakeFiles/gpg-text.dir/main.cpp.i
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tino/code/k/gpg-text/main.cpp > CMakeFiles/gpg-text.dir/main.cpp.i
 
 CMakeFiles/gpg-text.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gpg-text.dir/main.cpp.s"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tino/code/k/gpg-text2/main.cpp -o CMakeFiles/gpg-text.dir/main.cpp.s
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tino/code/k/gpg-text/main.cpp -o CMakeFiles/gpg-text.dir/main.cpp.s
 
 CMakeFiles/gpg-text.dir/GpgBackend.cpp.o: CMakeFiles/gpg-text.dir/flags.make
 CMakeFiles/gpg-text.dir/GpgBackend.cpp.o: ../../../GpgBackend.cpp
 CMakeFiles/gpg-text.dir/GpgBackend.cpp.o: CMakeFiles/gpg-text.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/gpg-text.dir/GpgBackend.cpp.o"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gpg-text.dir/GpgBackend.cpp.o -MF CMakeFiles/gpg-text.dir/GpgBackend.cpp.o.d -o CMakeFiles/gpg-text.dir/GpgBackend.cpp.o -c /home/tino/code/k/gpg-text2/GpgBackend.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/gpg-text.dir/GpgBackend.cpp.o"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gpg-text.dir/GpgBackend.cpp.o -MF CMakeFiles/gpg-text.dir/GpgBackend.cpp.o.d -o CMakeFiles/gpg-text.dir/GpgBackend.cpp.o -c /home/tino/code/k/gpg-text/GpgBackend.cpp
 
 CMakeFiles/gpg-text.dir/GpgBackend.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gpg-text.dir/GpgBackend.cpp.i"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tino/code/k/gpg-text2/GpgBackend.cpp > CMakeFiles/gpg-text.dir/GpgBackend.cpp.i
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tino/code/k/gpg-text/GpgBackend.cpp > CMakeFiles/gpg-text.dir/GpgBackend.cpp.i
 
 CMakeFiles/gpg-text.dir/GpgBackend.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gpg-text.dir/GpgBackend.cpp.s"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tino/code/k/gpg-text2/GpgBackend.cpp -o CMakeFiles/gpg-text.dir/GpgBackend.cpp.s
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tino/code/k/gpg-text/GpgBackend.cpp -o CMakeFiles/gpg-text.dir/GpgBackend.cpp.s
 
 CMakeFiles/gpg-text.dir/qrc_qml.cpp.o: CMakeFiles/gpg-text.dir/flags.make
 CMakeFiles/gpg-text.dir/qrc_qml.cpp.o: qrc_qml.cpp
 CMakeFiles/gpg-text.dir/qrc_qml.cpp.o: CMakeFiles/gpg-text.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/gpg-text.dir/qrc_qml.cpp.o"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gpg-text.dir/qrc_qml.cpp.o -MF CMakeFiles/gpg-text.dir/qrc_qml.cpp.o.d -o CMakeFiles/gpg-text.dir/qrc_qml.cpp.o -c /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/qrc_qml.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/gpg-text.dir/qrc_qml.cpp.o"
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gpg-text.dir/qrc_qml.cpp.o -MF CMakeFiles/gpg-text.dir/qrc_qml.cpp.o.d -o CMakeFiles/gpg-text.dir/qrc_qml.cpp.o -c /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/qrc_qml.cpp
 
 CMakeFiles/gpg-text.dir/qrc_qml.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gpg-text.dir/qrc_qml.cpp.i"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/qrc_qml.cpp > CMakeFiles/gpg-text.dir/qrc_qml.cpp.i
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/qrc_qml.cpp > CMakeFiles/gpg-text.dir/qrc_qml.cpp.i
 
 CMakeFiles/gpg-text.dir/qrc_qml.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gpg-text.dir/qrc_qml.cpp.s"
-	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/qrc_qml.cpp -o CMakeFiles/gpg-text.dir/qrc_qml.cpp.s
+	/usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/qrc_qml.cpp -o CMakeFiles/gpg-text.dir/qrc_qml.cpp.s
 
 # Object files for target gpg-text
 gpg__text_OBJECTS = \
@@ -153,7 +153,7 @@ gpg-text: /usr/lib/aarch64-linux-gnu/libQt5Network.so.5.12.8
 gpg-text: /usr/lib/aarch64-linux-gnu/libQt5Gui.so.5.12.8
 gpg-text: /usr/lib/aarch64-linux-gnu/libQt5Core.so.5.12.8
 gpg-text: CMakeFiles/gpg-text.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable gpg-text"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable gpg-text"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gpg-text.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -165,6 +165,6 @@ CMakeFiles/gpg-text.dir/clean:
 .PHONY : CMakeFiles/gpg-text.dir/clean
 
 CMakeFiles/gpg-text.dir/depend: qrc_qml.cpp
-	cd /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tino/code/k/gpg-text2 /home/tino/code/k/gpg-text2 /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app /home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tino/code/k/gpg-text /home/tino/code/k/gpg-text /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app /home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/gpg-text.dir/depend
 

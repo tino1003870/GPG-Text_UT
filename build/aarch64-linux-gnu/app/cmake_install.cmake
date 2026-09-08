@@ -1,4 +1,4 @@
-# Install script for directory: /home/tino/code/k/gpg-text2
+# Install script for directory: /home/tino/code/k/gpg-text
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -49,7 +49,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/./gpg-text"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE EXECUTABLE FILES "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/gpg-text")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE EXECUTABLE FILES "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/gpg-text")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/./gpg-text" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/./gpg-text")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -59,15 +59,15 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/assets" TYPE FILE FILES "/home/tino/code/k/gpg-text2/assets/gpg-text.svg")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/assets" TYPE FILE FILES "/home/tino/code/k/gpg-text/assets/gpg-text.svg")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE FILE FILES
-    "/home/tino/code/k/gpg-text2/manifest.json"
-    "/home/tino/code/k/gpg-text2/gpg-text.desktop"
-    "/home/tino/code/k/gpg-text2/gpg-text.apparmor"
-    "/home/tino/code/k/gpg-text2/gpg-text-contenthub.json"
+    "/home/tino/code/k/gpg-text/manifest.json"
+    "/home/tino/code/k/gpg-text/gpg-text.desktop"
+    "/home/tino/code/k/gpg-text/gpg-text.apparmor"
+    "/home/tino/code/k/gpg-text/gpg-text-contenthub.json"
     )
 endif()
 
@@ -79,5 +79,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/tino/code/k/gpg-text2/build/aarch64-linux-gnu/app/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

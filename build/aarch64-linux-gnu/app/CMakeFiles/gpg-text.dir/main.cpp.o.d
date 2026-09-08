@@ -1,4 +1,4 @@
-CMakeFiles/gpg-text.dir/main.cpp.o: /home/tino/code/k/gpg-text2/main.cpp \
+CMakeFiles/gpg-text.dir/main.cpp.o: /home/tino/code/k/gpg-text/main.cpp \
  /usr/aarch64-linux-gnu/include/stdc-predef.h \
  /usr/include/aarch64-linux-gnu/qt5/QtQml/QQmlEngine \
  /usr/include/aarch64-linux-gnu/qt5/QtQml/qqmlengine.h \
@@ -403,7 +403,7 @@ CMakeFiles/gpg-text.dir/main.cpp.o: /home/tino/code/k/gpg-text2/main.cpp \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/QSizeF \
  /usr/include/aarch64-linux-gnu/qt5/QtGui/QTransform \
  /usr/include/aarch64-linux-gnu/qt5/QtGui/qtransform.h \
- /home/tino/code/k/gpg-text2/GpgBackend.h \
+ /home/tino/code/k/gpg-text/GpgBackend.h \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/QObject \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/QString \
  /usr/include/aarch64-linux-gnu/qt5/QtCore/qstring.h \

@@ -1,0 +1,68 @@
+[33m90f7885[m Update GPG Text application
+ .gitignore                                         |   20 [31m-[m
+ build/aarch64-linux-gnu/app/CMakeCache.txt         |  350 [32m++++[m
+ .../app/CMakeFiles/3.22.3/CMakeCXXCompiler.cmake   |   83 [32m+[m
+ .../3.22.3/CMakeDetermineCompilerABI_CXX.bin       |  Bin [31m0[m -> [32m9464[m bytes
+ .../app/CMakeFiles/3.22.3/CMakeSystem.cmake        |   15 [32m+[m
+ .../3.22.3/CompilerIdCXX/CMakeCXXCompilerId.cpp    |  790 [32m++++++++[m
+ .../app/CMakeFiles/3.22.3/CompilerIdCXX/a.out      |  Bin [31m0[m -> [32m9600[m bytes
+ .../app/CMakeFiles/CMakeDirectoryInformation.cmake |   16 [32m+[m
+ .../app/CMakeFiles/CMakeOutput.log                 |  217 [32m+++[m
+ .../app/CMakeFiles/CMakeRuleHashes.txt             |    3 [32m+[m
+ .../app/CMakeFiles/Makefile.cmake                  |  108 [32m++[m
+ build/aarch64-linux-gnu/app/CMakeFiles/Makefile2   |  139 [32m++[m
+ .../app/CMakeFiles/TargetDirectories.txt           |    8 [32m+[m
+ .../app/CMakeFiles/cmake.check_cache               |    1 [32m+[m
+ .../app/CMakeFiles/gpg-text.dir/DependInfo.cmake   |   22 [32m+[m
+ .../app/CMakeFiles/gpg-text.dir/GpgBackend.cpp.o   |  Bin [31m0[m -> [32m152376[m bytes
+ .../app/CMakeFiles/gpg-text.dir/GpgBackend.cpp.o.d |  371 [32m++++[m
+ .../app/CMakeFiles/gpg-text.dir/build.make         |  170 [32m++[m
+ .../app/CMakeFiles/gpg-text.dir/cmake_clean.cmake  |   21 [32m+[m
+ .../gpg-text.dir/compiler_depend.internal          | 1097 [32m+++++++++++[m
+ .../CMakeFiles/gpg-text.dir/compiler_depend.make   | 1943 [32m++++++++++++++++++++[m
+ .../app/CMakeFiles/gpg-text.dir/compiler_depend.ts |    2 [32m+[m
+ .../app/CMakeFiles/gpg-text.dir/depend.make        |    2 [32m+[m
+ .../app/CMakeFiles/gpg-text.dir/flags.make         |   10 [32m+[m
+ .../gpg-text_autogen/mocs_compilation.cpp.o        |  Bin [31m0[m -> [32m11120[m bytes
+ .../gpg-text_autogen/mocs_compilation.cpp.o.d      |  303 [32m+++[m
+ .../app/CMakeFiles/gpg-text.dir/link.txt           |    1 [32m+[m
+ .../app/CMakeFiles/gpg-text.dir/main.cpp.o         |  Bin [31m0[m -> [32m22080[m bytes
+ .../app/CMakeFiles/gpg-text.dir/main.cpp.o.d       |  411 [32m+++++[m
+ .../app/CMakeFiles/gpg-text.dir/progress.make      |    7 [32m+[m
+ .../app/CMakeFiles/gpg-text.dir/qrc_qml.cpp.o      |  Bin [31m0[m -> [32m10536[m bytes
+ .../app/CMakeFiles/gpg-text.dir/qrc_qml.cpp.o.d    |    3 [32m+[m
+ .../gpg-text_autogen.dir/AutogenInfo.json          |  169 [32m++[m
+ .../gpg-text_autogen.dir/AutogenUsed.txt           |    1 [32m+[m
+ .../gpg-text_autogen.dir/DependInfo.cmake          |   18 [32m+[m
+ .../CMakeFiles/gpg-text_autogen.dir/ParseCache.txt |    5 [32m+[m
+ .../app/CMakeFiles/gpg-text_autogen.dir/build.make |   88 [32m+[m
+ .../gpg-text_autogen.dir/cmake_clean.cmake         |    9 [32m+[m
+ .../gpg-text_autogen.dir/compiler_depend.make      |    2 [32m+[m
+ .../gpg-text_autogen.dir/compiler_depend.ts        |    2 [32m+[m
+ .../CMakeFiles/gpg-text_autogen.dir/progress.make  |    2 [32m+[m
+ .../app/CMakeFiles/progress.marks                  |    1 [32m+[m
+ build/aarch64-linux-gnu/app/Makefile               |  325 [32m++++[m
+ build/aarch64-linux-gnu/app/cmake_install.cmake    |   83 [32m+[m
+ build/aarch64-linux-gnu/app/gpg-text               |  Bin [31m0[m -> [32m123072[m bytes
+ .../gpg-text.com.tino.gpgtext_1.0.0_arm64.click    |  Bin [31m0[m -> [32m51500[m bytes
+ .../gpg-text_autogen/EWIEGA46WW/moc_GpgBackend.cpp |  161 [32m++[m
+ .../app/gpg-text_autogen/moc_predefs.h             |  422 [32m+++++[m
+ .../app/gpg-text_autogen/mocs_compilation.cpp      |    2 [32m+[m
+ .../app/install/assets/gpg-text.svg                |   13 [32m+[m
+ build/aarch64-linux-gnu/app/install/gpg-text       |  Bin [31m0[m -> [32m123072[m bytes
+ .../app/install/gpg-text-contenthub.json           |    5 [32m+[m
+ .../app/install/gpg-text.apparmor                  |    5 [32m+[m
+ .../aarch64-linux-gnu/app/install/gpg-text.desktop |    8 [32m+[m
+ build/aarch64-linux-gnu/app/install/manifest.json  |   16 [32m+[m
+ build/aarch64-linux-gnu/app/install_manifest.txt   |    6 [32m+[m
+ build/aarch64-linux-gnu/app/qml.qrc.depends        |    5 [32m+[m
+ build/aarch64-linux-gnu/app/qrc_qml.cpp            |  492 [32m+++++[m
+ gpg-text-screen1.png                               |  Bin [31m0[m -> [32m613540[m bytes
+ gpg-text-screen2.png                               |  Bin [31m0[m -> [32m290571[m bytes
+ qml/Main.qml                                       | 1187 [32m++++++++[m[31m----[m
+ qml/Main.qml.bak                                   | 1305 [32m+++++++++++++[m
+ qml/Main.qml.before-back-navigation                | 1281 [32m+++++++++++++[m
+ qml/Main.qml.before-gui-redesign                   | 1032 [32m+++++++++++[m
+ qml/Main.qml.before-menu                           | 1158 [32m++++++++++++[m
+ qml/Main.qml.before-navigation                     | 1030 [32m+++++++++++[m
+ 66 files changed, 14577 insertions(+), 369 deletions(-)
