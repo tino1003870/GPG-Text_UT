@@ -22,7 +22,7 @@ public:
     Q_INVOKABLE QString encryptText(const QString &text,
                                      const QString &fingerprint);
 
-    Q_INVOKABLE QString decryptText(const QString &text);
+    Q_INVOKABLE QString decryptText(const QString &text, const QString &passphrase);
 
 private:
     QStringList listSecretKeyIds();
