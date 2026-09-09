@@ -153,7 +153,7 @@
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : [ "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/qrc_qml.cpp" ],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 4,
+	"PARALLEL" : 2,
 	"PARSE_CACHE_FILE" : "/home/tino/code/k/gpg-text/build/aarch64-linux-gnu/app/CMakeFiles/gpg-text_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "/usr/lib/qt5/bin/moc",
 	"QT_UIC_EXECUTABLE" : "",

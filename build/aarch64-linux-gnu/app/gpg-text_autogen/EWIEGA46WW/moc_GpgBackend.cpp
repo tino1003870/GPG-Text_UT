@@ -76,7 +76,7 @@ static const uint qt_meta_data_GpgBackend[] = {
        9,    0,   64,    2, 0x02 /* Public */,
       10,    0,   65,    2, 0x02 /* Public */,
       11,    2,   66,    2, 0x02 /* Public */,
-      13,    1,   71,    2, 0x02 /* Public */,
+      13,    2,   71,    2, 0x02 /* Public */,
 
  // methods: parameters
     QMetaType::QString,
@@ -86,7 +86,7 @@ static const uint qt_meta_data_GpgBackend[] = {
     QMetaType::QString,
     QMetaType::QString,
     QMetaType::QString, QMetaType::QString, QMetaType::QString,   12,    5,
-    QMetaType::QString, QMetaType::QString,   12,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString,   12,    8,
 
        0        // eod
 };
@@ -111,7 +111,7 @@ void GpgBackend::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         case 6: { QString _r = _t->encryptText((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 7: { QString _r = _t->decryptText((*reinterpret_cast< const QString(*)>(_a[1])));
+        case 7: { QString _r = _t->decryptText((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }

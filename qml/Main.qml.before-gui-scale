@@ -1,0 +1,1563 @@
+import QtQuick 2.12
+import QtQuick.Controls 2.5
+import Lomiri.Content 1.3
+
+Rectangle {
+    anchors.fill: parent
+    color: "white"
+
+    Timer {
+        id: pickerDebugTimer
+        interval: 2000
+        repeat: false
+        onTriggered: {
+            console.log("### PICKER DEBUG ###")
+            console.log("visible:", keyPicker.visible)
+            console.log("width:", keyPicker.width)
+            console.log("height:", keyPicker.height)
+            console.log("peer:", keyPicker.peer)
+        }
+    }
+
+    ContentPeerPicker {
+        id: keyPicker
+        anchors.fill: parent
+        visible: false
+        handler: ContentHandler.Source
+        contentType: ContentType.All
+        showTitle: true
+
+        onPeerSelected: {
+            console.log("### CONTENT PEER AUSGEWÄHLT ###")
+            console.log("### PEER ###", peer)
+            console.log("### PEER APP ID ###", peer.appId)
+            console.log("### PEER NAME ###", peer.name)
+
+            var transfer = peer.request()
+
+            if (!transfer) {
+                console.log("### CONTENT TRANSFER FEHLER: KEIN TRANSFER ###")
+                return
+            }
+
+            console.log("### CONTENT TRANSFER ERZEUGT ###")
+            console.log("### TRANSFER STATE ###", transfer.state)
+            console.log("### TRANSFER DIRECTION ###", transfer.direction)
+            console.log("### TRANSFER STORE ###", transfer.store)
+            console.log("### TRANSFER SOURCE ###", transfer.source)
+            console.log("### TRANSFER DESTINATION ###", transfer.destination)
+            console.log("### TRANSFER ITEMS ###", transfer.items.length)
+
+            transfer.stateChanged.connect(function() {
+                console.log("### TRANSFER STATE CHANGE ###", transfer.state)
+                console.log("### ITEMS ###", transfer.items.length)
+
+                for (var i = 0; i < transfer.items.length; i++) {
+                    console.log("### ITEM ###", i)
+                    console.log("### ITEM NAME ###", transfer.items[i].name)
+                    console.log("### ITEM URL ###", transfer.items[i].url)
+                    console.log("### ITEM TEXT ###", transfer.items[i].text)
+                }
+
+                if (transfer.state === ContentTransfer.Collected &&
+                    transfer.items.length > 0) {
+                    var importUrl = transfer.items[0].url
+                    console.log("### IMPORT DATEI ###", importUrl)
+
+                    pendingImportUrl = importUrl
+                    passphraseField.text = ""
+                    passphraseDialog.open()
+
+                    Qt.callLater(function() {
+                        passphraseField.forceActiveFocus()
+                        passphraseField.openSoftwareInputPanel()
+                    })
+                }
+            })
+
+            if (!transfer.start()) {
+                console.log("### CONTENT TRANSFER START FEHLER ###")
+            } else {
+                console.log("### CONTENT TRANSFER GESTARTET ###")
+            }
+        }
+
+        onCancelPressed: {
+            console.log("### CONTENT HUB ABGEBROCHEN ###")
+            visible = false
+        }
+    }
+
+    function loadKeys() {
+    console.log("### LOAD KEYS START ###")
+
+    var keys = gpgBackend.listPublicKeys()
+
+    console.log("### LOAD KEYS RAW ###",
+    JSON.stringify(keys))
+
+    keyList = keys
+
+    console.log("### LOAD KEYS COUNT ###",
+    keyList.length)
+
+    for (var i = 0; i < keyList.length; i++) {
+    console.log("### KEY ###", i)
+    console.log("### KEY NAME ###", keyList[i].name)
+    console.log("### KEY EMAIL ###", keyList[i].email)
+    console.log("### KEY ID ###", keyList[i].keyId)
+    console.log("### KEY FINGERPRINT ###",
+    keyList[i].fingerprint)
+    console.log("### KEY SECRET ###",
+    keyList[i].hasSecretKey)
+    console.log("### KEY CREATED ###",
+    keyList[i].created)
+    console.log("### KEY EXPIRES ###",
+    keyList[i].expires)
+    }
+
+    console.log("### LOAD KEYS END ###")
+    }
+
+    property string pendingImportUrl: ""
+    property string passphraseMode: ""
+    property string selectedFingerprint: ""
+
+    // -------------------------------------------------------------------------
+    // Navigation
+    // -------------------------------------------------------------------------
+    // 0 = Startseite
+    // 1 = Encrypt / Decrypt
+    // 2 = Key Management
+    property int currentPage: 0
+
+    function showStartPage() {
+        console.log("### NAVIGATION: START PAGE ###")
+        currentPage = 0
+    }
+
+    function showCryptoPage() {
+        console.log("### NAVIGATION: ENCRYPT / DECRYPT ###")
+        currentPage = 1
+    }
+
+    function showKeyManager() {
+        console.log("### NAVIGATION: KEY MANAGEMENT ###")
+        currentPage = 2
+        loadKeys()
+    }
+
+    function encodeText() {
+        console.log("### ENCODE BUTTON CLICKED ###")
+        console.log("### ENCODE SELECTED FINGERPRINT ###",
+                    selectedFingerprint)
+        console.log("### ENCODE INPUT LENGTH ###",
+                    inputText.text.length)
+
+        if (selectedFingerprint === "") {
+            console.log("### ENCODE FEHLER: KEIN KEY AUSGEWÄHLT ###")
+            output.text = "FEHLER: Bitte zuerst einen Select Key."
+            return
+        }
+
+        if (inputText.text === "") {
+            console.log("### ENCODE FEHLER: INPUT LEER ###")
+            output.text = "FEHLER: Bitte Text eingeben."
+            return
+        }
+
+        console.log("### ENCODE GPG AUFRUF ###")
+
+        var result = gpgBackend.encryptText(
+            inputText.text,
+            selectedFingerprint
+        )
+
+        console.log("### ENCODE RESULT LENGTH ###",
+                    result.length)
+        console.log("### ENCODE RESULT ###", result)
+
+        output.text = result
+
+        console.log("### ENCODE DONE ###")
+    }
+
+    function decodeText() {
+        console.log("### DECODE BUTTON CLICKED ###")
+        console.log("### DECODE INPUT LENGTH ###",
+                    inputText.text.length)
+
+        if (inputText.text === "") {
+            console.log("### DECODE FEHLER: INPUT LEER ###")
+            output.text = "FEHLER: Bitte verschlüsselten Text eingeben."
+            return
+        }
+
+        console.log("### DECODE: PASSPHRASE DIALOG ###")
+
+        passphraseMode = "decrypt"
+        passphraseField.text = ""
+        passphraseDialog.open()
+
+        Qt.callLater(function() {
+            passphraseField.forceActiveFocus()
+            passphraseField.openSoftwareInputPanel()
+        })
+    }
+
+
+    property var keyList: []
+
+    Popup {
+        id: passphraseDialog
+
+        width: parent.width - 60
+        height: 230
+
+        x: 30
+        y: (parent.height - height) / 2
+
+        modal: true
+        focus: true
+
+        background: Rectangle {
+            color: "white"
+            border.color: "gray"
+            border.width: 1
+            radius: 8
+        }
+
+        Column {
+            anchors.fill: parent
+            anchors.margins: 30
+            spacing: 20
+
+            Text {
+                text: "Passphrase eingeben"
+                font.pixelSize: 24
+                color: "black"
+            }
+
+            TextField {
+                id: passphraseField
+
+                width: parent.width
+                height: 58
+
+                placeholderText: "Passphrase"
+                echoMode: TextInput.Password
+                inputMethodHints: Qt.ImhHiddenText
+
+                onAccepted: {
+                    if (passphraseMode === "decrypt")
+                        decryptWithPassphrase()
+                    else
+                        importWithPassphrase()
+                }
+
+    Component.onCompleted: {
+                    forceActiveFocus()
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: 10
+
+                Button {
+                    width: (parent.width - 10) / 2
+                    height: 50
+                    text: "Abbrechen"
+
+                    onClicked: {
+                        passphraseField.text = ""
+                        pendingImportUrl = ""
+                        passphraseMode = ""
+                        passphraseDialog.close()
+                    }
+                }
+
+                Button {
+                    width: (parent.width - 10) / 2
+                    height: 50
+                    text: passphraseMode === "decrypt"
+                          ? "Entschlüsseln"
+                          : "Importieren"
+
+                    onClicked: {
+                        if (passphraseMode === "decrypt")
+                            decryptWithPassphrase()
+                        else
+                            importWithPassphrase()
+                    }
+                }
+            }
+        }
+
+        onOpened: {
+            passphraseField.forceActiveFocus()
+        }
+    }
+
+    function importKeyDesktopOrTouch() {
+        console.log("### IMPORT KEY BUTTON ###")
+
+        var platform = gpgBackend.platformName()
+
+        console.log("### PLATFORM ###", platform)
+
+        // Desktop: normaler Qt-Dateidialog
+        if (platform === "xcb" ||
+            platform === "wayland" ||
+            platform === "windows" ||
+            platform === "cocoa") {
+
+            console.log("### DESKTOP FILE DIALOG ###")
+
+            var filePath = gpgBackend.chooseImportFile()
+
+            console.log("### SELECTED FILE ###", filePath)
+
+            if (filePath === "") {
+                console.log("### FILE SELECTION CANCELLED ###")
+                return
+            }
+
+            pendingImportUrl = filePath
+
+            passphraseField.text = ""
+            passphraseDialog.open()
+
+            Qt.callLater(function() {
+                passphraseField.forceActiveFocus()
+                passphraseField.openSoftwareInputPanel()
+            })
+
+            return
+        }
+
+        // Ubuntu Touch: Content Hub
+        console.log("### LOMIRI CONTENT HUB ###")
+
+        keyPicker.visible = true
+    }
+
+
+    function decryptWithPassphrase() {
+        console.log("### DECRYPT MIT PASSPHRASE ###")
+        console.log("### DECRYPT INPUT LENGTH ###",
+                    inputText.text.length)
+
+        var result = gpgBackend.decryptText(
+            inputText.text,
+            passphraseField.text
+        )
+
+        console.log("### DECRYPT RESULT LENGTH ###",
+                    result.length)
+        console.log("### DECRYPT RESULT ###", result)
+
+        output.text = result
+
+        passphraseField.text = ""
+        passphraseMode = ""
+        passphraseDialog.close()
+
+        console.log("### DECRYPT DONE ###")
+    }
+
+    function importWithPassphrase() {
+        if (pendingImportUrl === "")
+            return
+
+        console.log("### GPG IMPORT MIT PASSPHRASE ###")
+
+        var result = gpgBackend.importKey(
+            pendingImportUrl,
+            passphraseField.text
+        )
+
+        console.log("### GPG IMPORT ERGEBNIS ###", result)
+        output.text = result
+
+        passphraseField.text = ""
+        pendingImportUrl = ""
+        passphraseDialog.close()
+    }
+
+    Popup {
+        id: keyManagerPopup
+
+        width: parent.width
+        height: parent.height
+
+        x: 0
+        y: 0
+
+        modal: true
+        focus: true
+
+        background: Rectangle {
+            color: "white"
+            border.color: "gray"
+            border.width: 1
+            radius: 8
+        }
+
+        Column {
+            anchors.fill: parent
+            anchors.margins: 20
+            spacing: 15
+
+            Text {
+                text: "Installed Keys"
+                font.pixelSize: 36
+                color: "black"
+            }
+
+            Text {
+                text: "Count: " + keyList.length
+                font.pixelSize: 24
+                color: "gray"
+            }
+
+            ListView {
+                id: keyListView
+
+                width: parent.width
+                height: parent.height - 270
+
+                clip: true
+                spacing: 16
+
+                model: keyList
+
+                delegate: Rectangle {
+                    width: keyListView.width
+                    height: 175
+
+                    color: "#f3f3f3"
+                    border.color: "#cccccc"
+                    border.width: 1
+                    radius: 6
+
+                    Column {
+                        anchors.left: parent.left
+                        anchors.right: deleteButton.left
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+
+                        anchors.margins: 16
+                        spacing: 8
+
+                        Text {
+                            width: parent.width
+                            text: modelData.name !== ""
+                                  ? modelData.name
+                                  : "(no name)"
+                            font.pixelSize: 25
+                            color: "black"
+                            elide: Text.ElideRight
+                        }
+
+                        Text {
+                            width: parent.width
+                            text: modelData.email !== ""
+                                  ? modelData.email
+                                  : "(no email)"
+                            font.pixelSize: 21
+                            color: "gray"
+                            elide: Text.ElideRight
+                        }
+
+                        Text {
+                            width: parent.width
+                            text: "Fingerprint: " + modelData.fingerprint
+                            font.pixelSize: 16
+                            color: "gray"
+                            elide: Text.ElideMiddle
+                        }
+
+                        Text {
+                            text: modelData.hasSecretKey
+                                  ? "Private key available"
+                                  : "Public key only"
+                            font.pixelSize: 18
+                            color: modelData.hasSecretKey
+                                   ? "black"
+                                   : "gray"
+                        }
+                    }
+
+                    Button {
+                        id: deleteButton
+
+                        width: 125
+                        height: 50
+
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.rightMargin: 14
+
+                        text: "Delete"
+
+                        onClicked: {
+                            console.log("### DELETE BUTTON CLICKED ###")
+                            console.log("### DELETE NAME ###",
+                                        modelData.name)
+                            console.log("### DELETE EMAIL ###",
+                                        modelData.email)
+                            console.log("### DELETE FINGERPRINT ###",
+                                        modelData.fingerprint)
+                            console.log("### DELETE HAS SECRET ###",
+                                        modelData.hasSecretKey)
+
+                            var result =
+                                gpgBackend.deleteKey(
+                                    modelData.fingerprint
+                                )
+
+                            console.log(
+                                "### DELETE RESULT ###",
+                                result
+                            )
+
+                            output.text = result
+
+                            loadKeys()
+                        }
+                    }
+                }
+
+                Text {
+                    anchors.centerIn: parent
+                    visible: keyList.length === 0
+
+                    text: "No keys installed."
+                    font.pixelSize: 24
+                    color: "gray"
+                }
+            }
+
+            Button {
+                id: keyManagerImportButton
+                width: parent.width
+                height: 110
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: keyManagementBackButton.top
+                anchors.bottomMargin: 12
+
+                text: "Import Key"
+
+                onClicked: {
+                    console.log("### KEY IMPORT BUTTON ###")
+                    importKeyDesktopOrTouch()
+                }
+            }
+
+            Button {
+                id: keyManagerBackButton
+                width: parent.width
+                height: 110
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+
+                text: "←  Back"
+
+                onClicked: {
+                    console.log("### KEY MANAGER: BACK TO START ###")
+                    keyManagerPopup.close()
+                    currentPage = 0
+                }
+            }
+        }
+
+        onOpened: {
+            console.log("### KEY MANAGER OPENED ###")
+            loadKeys()
+        }
+    }
+
+
+    // -------------------------------------------------------------------------
+    // KEY MANAGEMENT PAGE
+    // -------------------------------------------------------------------------
+    Item {
+        id: keyManagementPage
+
+        anchors.fill: parent
+        visible: !keyPicker.visible && currentPage === 2
+        z: 100
+
+        Rectangle {
+            anchors.fill: parent
+            color: "white"
+        }
+
+        Item {
+            anchors.fill: parent
+            anchors.margins: 24
+
+            Rectangle {
+                id: keyManagementPageHeader
+
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                height: 70
+                radius: 12
+                color: "#2c2c2c"
+
+                Text {
+                    anchors.centerIn: parent
+
+                    text: "Key Management"
+                    font.pixelSize: 30
+                    font.bold: true
+                    color: "white"
+                }
+            }
+
+            Text {
+                id: keyManagementCount
+
+                anchors.top: keyManagementPageHeader.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.topMargin: 16
+
+                text: "Installed Keys: " + keyList.length
+                font.pixelSize: 22
+                color: "#444444"
+            }
+
+            ListView {
+                id: keyManagementList
+
+                anchors.top: keyManagementCount.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: keyManagementImportButton.top
+
+                anchors.topMargin: 12
+                anchors.bottomMargin: 12
+
+                clip: true
+                spacing: 12
+
+                model: keyList
+
+                delegate: Rectangle {
+                    width: keyManagementList.width
+                    height: 160
+
+                    color: "#f3f3f3"
+                    border.color: "#cccccc"
+                    border.width: 1
+                    radius: 8
+
+                    Column {
+                        anchors.left: parent.left
+                        anchors.right: deleteKeyButton.left
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.margins: 14
+
+                        spacing: 6
+
+                        Text {
+                            width: parent.width
+
+                            text: modelData.name !== ""
+                                  ? modelData.name
+                                  : "(no name)"
+
+                            font.pixelSize: 23
+                            color: "black"
+                            elide: Text.ElideRight
+                        }
+
+                        Text {
+                            width: parent.width
+
+                            text: modelData.email !== ""
+                                  ? modelData.email
+                                  : "(no email)"
+
+                            font.pixelSize: 19
+                            color: "gray"
+                            elide: Text.ElideRight
+                        }
+
+                        Text {
+                            width: parent.width
+
+                            text: "Fingerprint: " + modelData.fingerprint
+
+                            font.pixelSize: 14
+                            color: "gray"
+                            elide: Text.ElideMiddle
+                        }
+
+                        Text {
+                            text: modelData.hasSecretKey
+                                  ? "Private key available"
+                                  : "Public key only"
+
+                            font.pixelSize: 17
+
+                            color: modelData.hasSecretKey
+                                   ? "black"
+                                   : "gray"
+                        }
+                    }
+
+                    Button {
+                        id: deleteKeyButton
+
+                        width: 120
+                        height: 100
+
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.rightMargin: 12
+
+                        text: "Delete"
+
+                        onClicked: {
+                            console.log("### KEY MANAGEMENT DELETE ###")
+
+                            var result =
+                                gpgBackend.deleteKey(
+                                    modelData.fingerprint
+                                )
+
+                            console.log("### DELETE RESULT ###", result)
+
+                            output.text = result
+                            loadKeys()
+                        }
+                    }
+                }
+
+                Text {
+                    anchors.centerIn: parent
+
+                    visible: keyList.length === 0
+
+                    text: "No keys installed."
+                    font.pixelSize: 24
+                    color: "gray"
+                }
+            }
+
+            Button {
+                id: keyManagementImportButton
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: keyManagementBackButton.top
+
+                anchors.bottomMargin: 12
+
+                height: 110
+
+                text: "Import Key"
+                font.pixelSize: 18
+
+                onClicked: {
+                    console.log("### KEY MANAGEMENT: IMPORT KEY ###")
+                    importKeyDesktopOrTouch()
+                }
+            }
+
+            Button {
+                id: keyManagementBackButton
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+
+                height: 110
+
+                text: "←  Back"
+                font.pixelSize: 18
+
+                onClicked: {
+                    console.log("### KEY MANAGEMENT: BACK ###")
+                    showStartPage()
+                }
+            }
+        }
+
+        onVisibleChanged: {
+            if (visible) {
+                console.log("### KEY MANAGEMENT PAGE OPENED ###")
+                loadKeys()
+            }
+        }
+    }
+
+
+    // -------------------------------------------------------------------------
+    // HAMBURGER-MENÜ
+    // -------------------------------------------------------------------------
+    Item {
+        id: menuButton
+        width: 200
+        height: 200
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.topMargin: 16
+        anchors.rightMargin: 16
+        z: 200
+
+        Rectangle {
+            anchors.fill: parent
+            radius: 16
+            color: "#eeeeee"
+            border.color: "#cccccc"
+            border.width: 1
+
+            Text {
+                anchors.centerIn: parent
+                text: "☰"
+                font.pixelSize: 56
+                color: "#333333"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+
+                onClicked: {
+                    console.log("### MENU BUTTON CLICKED ###")
+                    mainMenu.open()
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: mainMenu
+
+        x: parent.width - width - 16
+        y: 16
+        width: Math.min(600, parent.width - 32)
+        padding: 16
+        modal: true
+        focus: true
+
+        background: Rectangle {
+            radius: 14
+            color: "white"
+            border.color: "#cccccc"
+            border.width: 1
+        }
+
+        Column {
+            width: parent.width
+            spacing: 8
+
+            Text {
+                width: parent.width
+                height: 64
+                text: "GPG Text"
+                font.pixelSize: 30
+                font.bold: true
+                color: "#333333"
+                verticalAlignment: Text.AlignVCenter
+                leftPadding: 12
+            }
+
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: "#dddddd"
+            }
+
+            Button {
+                width: parent.width
+                height: 100
+                text: "Encrypt / Decrypt"
+                font.pixelSize: 24
+
+                onClicked: {
+                    console.log("### MENU: CRYPTO ###")
+                    mainMenu.close()
+                    showCryptoPage()
+                }
+            }
+
+            Button {
+                width: parent.width
+                height: 100
+                text: "Key Management"
+                font.pixelSize: 24
+
+                onClicked: {
+                    console.log("### MENU: KEY MANAGER ###")
+                    mainMenu.close()
+                    showKeyManager()
+                }
+            }
+
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: "#dddddd"
+            }
+
+            Button {
+                width: parent.width
+                height: 100
+                text: "Exit"
+                font.pixelSize: 24
+
+                onClicked: {
+                    console.log("### MENU: EXIT ###")
+                    mainMenu.close()
+                    Qt.quit()
+                }
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // STARTSEITE
+    // -------------------------------------------------------------------------
+    Item {
+        id: startPage
+        anchors.fill: parent
+        visible: !keyPicker.visible && currentPage === 0
+        z: 90
+
+        Rectangle {
+            anchors.fill: parent
+            color: "white"
+        }
+
+        Column {
+            anchors.fill: parent
+            anchors.margins: 24
+            spacing: 20
+
+            // Kopfbereich
+            Rectangle {
+                width: parent.width
+                height: 90
+                radius: 12
+                color: "#2c2c2c"
+
+                Column {
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.leftMargin: 20
+                    spacing: 3
+
+                    Text {
+                        text: "GPG Text"
+                        font.pixelSize: 30
+                        font.bold: true
+                        color: "white"
+                    }
+
+                    Text {
+                        text: "OpenPGP text encryption and decryption"
+                        font.pixelSize: 15
+                        color: "#dddddd"
+                    }
+                }
+            }
+
+            // Motto
+            Rectangle {
+                width: parent.width
+                height: 90
+                color: "#f3f3f3"
+                border.color: "#cccccc"
+                border.width: 1
+                radius: 8
+
+                Column {
+                    width: parent.width
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 8
+
+                    Text {
+                        width: parent.width
+                        text: "OpenPGP – Trust through encryption."
+                        font.pixelSize: 22
+                        font.bold: true
+                        color: "#333333"
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    Text {
+                        width: parent.width
+                        text: "Security begins where confidential remains confidential."
+                        font.pixelSize: 15
+                        font.italic: true
+                        color: "#777777"
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                }
+            }
+
+            Rectangle {
+                width: parent.width
+                implicitHeight: commandColumn.implicitHeight + 32
+
+                color: "#1e1e1e"
+                border.color: "#444444"
+                border.width: 1
+                radius: 8
+
+                Column {
+                    id: commandColumn
+
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.margins: 16
+
+                    spacing: 4
+
+                    Text {
+                        text: "GPG-Befehle"
+                        font.pixelSize: 24
+                        font.bold: true
+                        font.family: "Monospace"
+                        color: "#eeeeee"
+                    }
+
+                    Text {
+                        text: "Import Key:\n"
+                            + "$ gpg --import <schlüsseldatei>\n\n"
+                            + "List Keys:\n"
+                            + "$ gpg --list-keys\n\n"
+                            + "Encrypt text:\n"
+                            + "$ echo \"Text\" | gpg --armor --encrypt --recipient <KEY-ID>\n\n"
+                            + "Decrypt text:\n"
+                            + "$ echo \"encrypted text\" | gpg --decrypt"
+
+                        font.pixelSize: 15
+                        font.family: "Monospace"
+                        color: "#66ff66"
+                    }
+                }
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Back-Button der Crypto-Seite
+    // -------------------------------------------------------------------------
+    Button {
+        id: cryptoBackButton
+        text: "←  Back"
+        height: 110
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 5
+        anchors.rightMargin: 5
+        anchors.bottomMargin: 5
+        z: 150
+        visible: !keyPicker.visible && currentPage === 1
+
+        onClicked: {
+            console.log("### CRYPTO: BACK TO START ###")
+            showStartPage()
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Hauptansicht
+    // -------------------------------------------------------------------------
+    ScrollView {
+        id: cryptoScrollView
+
+        visible: !keyPicker.visible && currentPage === 1
+        z: 100
+
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            bottom: cryptoBackButton.top
+
+            margins: 0
+        }
+
+        clip: true
+        ScrollBar.vertical.policy: ScrollBar.AsNeeded
+
+        Column {
+            id: cryptoColumn
+
+            width: Math.max(0, cryptoScrollView.width - 24)
+            x: 12
+
+            spacing: 16
+            topPadding: 16
+            bottomPadding: 36
+
+            // Kopfbereich -----------------------------------------------------
+            Rectangle {
+                width: parent.width
+                height: 86
+                radius: 12
+                color: "#2c2c2c"
+
+                Column {
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.leftMargin: 20
+                    spacing: 3
+
+                    Text {
+                        text: "GPG Text"
+                        font.pixelSize: 30
+                        font.bold: true
+                        color: "white"
+                    }
+
+                    Text {
+                        text: "OpenPGP text encryption and decryption"
+                        font.pixelSize: 15
+                        color: "#dddddd"
+                        elide: Text.ElideRight
+                        width: cryptoColumn.width - 40
+                    }
+                }
+            }
+
+
+            // Schlüssel ------------------------------------------------------
+            Text {
+                text: "KEY"
+                font.pixelSize: 14
+                font.bold: true
+                color: "#666666"
+                topPadding: 4
+            }
+
+            Rectangle {
+                width: parent.width
+                height: selectedFingerprint === "" ? 124 : 164
+                radius: 12
+                color: "#f3f3f3"
+                border.color: selectedFingerprint === "" ? "#cccccc" : "#d7d7d7"
+                border.width: 1
+
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 14
+                    spacing: 8
+
+                    Text {
+                        text: "Encryption Key"
+                        font.pixelSize: 15
+                        color: "#666666"
+                    }
+
+                    ComboBox {
+                        id: keyComboBox
+
+                        width: parent.width
+                        height: 58
+                        z: 200
+
+                        model: keyList
+                        textRole: "name"
+
+                        currentIndex: selectedFingerprint === ""
+                                      ? -1
+                                      : keyList.findIndex(function(k) {
+                                            return k.fingerprint === selectedFingerprint
+                                        })
+
+                        displayText: currentIndex >= 0 && currentIndex < keyList.length
+                                    ? ((keyList[currentIndex].name !== ""
+                                        ? keyList[currentIndex].name
+                                        : "(no name)") +
+                                       (keyList[currentIndex].email !== ""
+                                        ? " <" + keyList[currentIndex].email + ">"
+                                        : ""))
+                                    : "Bitte Select Key ..."
+
+                        font.pixelSize: 18
+
+                        delegate: ItemDelegate {
+                            width: keyComboBox.width
+                            height: 76
+
+                            contentItem: Column {
+                                anchors.fill: parent
+                                anchors.margins: 10
+                                spacing: 2
+
+                                Text {
+                                    text: modelData.name !== ""
+                                          ? modelData.name
+                                          : "(no name)"
+                                    font.pixelSize: 18
+                                    font.bold: true
+                                    color: "black"
+                                    elide: Text.ElideRight
+                                    width: parent.width
+                                }
+
+                                Text {
+                                    text: modelData.email !== ""
+                                          ? modelData.email
+                                          : "(no email)"
+                                    font.pixelSize: 15
+                                    color: "#666666"
+                                    elide: Text.ElideRight
+                                    width: parent.width
+                                }
+                            }
+
+                            onClicked: {
+                                console.log("### KEY SELECTED ###")
+                                console.log("### KEY NAME ###", modelData.name)
+                                console.log("### KEY EMAIL ###", modelData.email)
+                                console.log("### KEY FINGERPRINT ###",
+                                            modelData.fingerprint)
+                                console.log("### KEY SECRET ###",
+                                            modelData.hasSecretKey)
+
+                                selectedFingerprint = modelData.fingerprint
+                                keyComboBox.currentIndex = index
+
+                                console.log("### SELECTED FINGERPRINT ###",
+                                            selectedFingerprint)
+                            }
+                        }
+
+                        onCurrentIndexChanged: {
+                            if (currentIndex >= 0 &&
+                                currentIndex < keyList.length) {
+
+                                selectedFingerprint =
+                                    keyList[currentIndex].fingerprint
+
+                                console.log("### KEY COMBO INDEX ###",
+                                            currentIndex)
+                                console.log("### SELECTED FINGERPRINT ###",
+                                            selectedFingerprint)
+                            }
+                        }
+                    }
+
+                    Text {
+                        width: parent.width
+                        visible: selectedFingerprint !== ""
+                        text: {
+                            if (selectedFingerprint === "" ||
+                                keyComboBox.currentIndex < 0 ||
+                                keyComboBox.currentIndex >= keyList.length)
+                                return ""
+
+                            var key = keyList[keyComboBox.currentIndex]
+                            var name = key.name !== "" ? key.name : "(no name)"
+                            var email = key.email !== "" ? " <" + key.email + ">" : ""
+                            return "✓ " + name + email
+                        }
+                        font.pixelSize: 15
+                        font.bold: true
+                        color: "#333333"
+                        elide: Text.ElideRight
+                    }
+
+                    Text {
+                        width: parent.width
+                        visible: selectedFingerprint !== ""
+                        text: selectedFingerprint === ""
+                              ? ""
+                              : "Fingerprint: " + selectedFingerprint
+                        font.pixelSize: 13
+                        color: "#777777"
+                        elide: Text.ElideMiddle
+                    }
+                }
+            }
+
+
+            // Eingabe --------------------------------------------------------
+            Text {
+                text: "INPUT"
+                font.pixelSize: 14
+                font.bold: true
+                color: "#666666"
+                topPadding: 4
+            }
+
+            Rectangle {
+                width: parent.width
+                height: 220
+                radius: 12
+                color: "#fafafa"
+                border.color: "#bdbdbd"
+                border.width: 1
+
+                TextArea {
+                    id: inputText
+
+                    anchors.fill: parent
+                    anchors.margins: 12
+
+                    font.pixelSize: 24
+                    wrapMode: TextArea.Wrap
+                    placeholderText: "Enter plaintext or encrypted text ..."
+                    color: "black"
+                    background: null
+                    selectByMouse: true
+
+                    Keys.onPressed: {
+                        if ((event.modifiers & Qt.ControlModifier) &&
+                            event.key === Qt.Key_C) {
+
+                            copy()
+                            event.accepted = true
+                            console.log("### INPUT COPIED ###")
+                        }
+                    }
+                }
+            }
+
+            // Hauptaktionen --------------------------------------------------
+            Row {
+                width: parent.width
+                spacing: 12
+
+                Button {
+                    width: (parent.width - parent.spacing) / 2
+                    height: 128
+                    text: "🔒  Verschlüsseln"
+                    font.pixelSize: 18
+
+                    onClicked: {
+                        console.log("### ENCODE BUTTON ###")
+                        encodeText()
+                    }
+                }
+
+                Button {
+                    width: (parent.width - parent.spacing) / 2
+                    height: 128
+                    text: "🔓  Entschlüsseln"
+                    font.pixelSize: 18
+
+                    onClicked: {
+                        console.log("### DECODE BUTTON ###")
+                        decodeText()
+                    }
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: 12
+
+                Button {
+                    width: (parent.width - 24) / 3
+                    height: 96
+                    text: "Copy"
+                    font.pixelSize: 18
+
+                    onClicked: {
+                        inputText.selectAll()
+                        inputText.copy()
+                        inputText.deselect()
+
+                        console.log("### INPUT COPY BUTTON ###")
+                        console.log("### INPUT COPY LENGTH ###",
+                                    inputText.text.length)
+                    }
+                }
+
+                Button {
+                    width: (parent.width - 24) / 3
+                    height: 96
+                    text: "Paste"
+                    font.pixelSize: 18
+
+                    onClicked: {
+                        console.log("### INPUT PASTE BUTTON ###")
+                        inputText.paste()
+                        console.log("### INPUT AFTER PASTE LENGTH ###",
+                                    inputText.text.length)
+                    }
+                }
+
+                Button {
+                    width: (parent.width - 24) / 3
+                    height: 96
+                    text: "Clear"
+                    font.pixelSize: 18
+
+                    onClicked: {
+                        inputText.clear()
+                        console.log("### INPUT CLEAR BUTTON ###")
+                    }
+                }
+            }
+
+            // Ausgabe --------------------------------------------------------
+            Text {
+                text: "OUTPUT"
+                font.pixelSize: 14
+                font.bold: true
+                color: "#666666"
+                topPadding: 8
+            }
+
+            Rectangle {
+                width: parent.width
+                height: 220
+                radius: 12
+                color: "#f1f1f1"
+                border.color: "#c5c5c5"
+                border.width: 1
+
+                TextArea {
+                    id: output
+
+                    anchors.fill: parent
+                    anchors.margins: 12
+
+                    font.pixelSize: 24
+                    wrapMode: TextArea.Wrap
+                    readOnly: true
+                    selectByMouse: true
+                    color: "black"
+                    background: null
+
+                    Keys.onPressed: {
+                        if ((event.modifiers & Qt.ControlModifier) &&
+                            event.key === Qt.Key_C) {
+
+                            copy()
+                            event.accepted = true
+                            console.log("### OUTPUT COPIED ###")
+                        }
+                    }
+                }
+            }
+
+            Row {
+                width: parent.width
+                spacing: 8
+
+                Button {
+                    width: (parent.width - parent.spacing * 2) / 3
+                    height: 48
+                    text: "Copy"
+                    font.pixelSize: 15
+
+                    onClicked: {
+                        output.selectAll()
+                        output.copy()
+                        output.deselect()
+
+                        console.log("### OUTPUT COPY BUTTON ###")
+                        console.log("### OUTPUT COPY LENGTH ###",
+                                    output.text.length)
+                    }
+                }
+
+                Button {
+                    width: (parent.width - parent.spacing * 2) / 3
+                    height: 48
+                    text: "Paste"
+                    font.pixelSize: 15
+
+                    onClicked: {
+                        console.log("### OUTPUT PASTE BUTTON ###")
+                        output.paste()
+                        console.log("### OUTPUT AFTER PASTE LENGTH ###",
+                                    output.text.length)
+                    }
+                }
+
+                Button {
+                    width: (parent.width - parent.spacing * 2) / 3
+                    height: 48
+                    text: "Clear"
+                    font.pixelSize: 15
+
+                    onClicked: {
+                        output.clear()
+                        console.log("### OUTPUT CLEARED ###")
+                    }
+                }
+            }
+        }
+    }
+
+    Column {
+        id: mainColumn
+        visible: false
+
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            margins: 30
+        }
+
+        spacing: 20
+
+        Button {
+            width: parent.width
+            height: 60
+
+            text: "Import Key"
+
+            onClicked: {
+                console.log("### KEY IMPORT BUTTON ###")
+                importKeyDesktopOrTouch()
+            }
+        }
+
+        Button {
+            width: parent.width
+            height: 60
+
+            text: "Öffentliche Schlüssel"
+
+            onClicked: {
+                console.log("### ÖFFENTLICHE KEY BUTTON ###")
+
+                var keys = gpgBackend.listPublicKeys()
+
+                console.log("### LIST PUBLIC KEYS ERGEBNIS ###", JSON.stringify(keys))
+
+                output.text = JSON.stringify(keys, null, 2)
+            }
+        }
+
+        Button {
+            width: parent.width
+            height: 60
+
+            text: "Manage Keys"
+
+            onClicked: {
+                console.log("### KEY VERWALTEN BUTTON ###")
+                keyManagerPopup.open()
+            }
+        }
+    }
+
+    Component.onCompleted: {
+        console.log("### GPG BACKEND UI START ###")
+    }
+}
