@@ -222,6 +222,7 @@ Rectangle {
 
         background: Rectangle {
             color: "white"
+
             border.color: "gray"
             border.width: 1
             radius: 8
@@ -229,12 +230,10 @@ Rectangle {
 
         Column {
             anchors.fill: parent
-            anchors.margins: 30
-            spacing: 20
 
             Text {
                 text: "Passphrase eingeben"
-                font.pixelSize: 24
+                font.pixelSize: 26
                 color: "black"
             }
 
@@ -242,7 +241,6 @@ Rectangle {
                 id: passphraseField
 
                 width: parent.width
-                height: 58
 
                 placeholderText: "Passphrase"
                 echoMode: TextInput.Password
@@ -255,18 +253,13 @@ Rectangle {
                         importWithPassphrase()
                 }
 
-    Component.onCompleted: {
-                    forceActiveFocus()
-                }
             }
 
             Row {
                 width: parent.width
-                spacing: 10
 
                 Button {
                     width: (parent.width - 10) / 2
-                    height: 50
                     text: "Abbrechen"
 
                     onClicked: {
@@ -279,7 +272,6 @@ Rectangle {
 
                 Button {
                     width: (parent.width - 10) / 2
-                    height: 50
                     text: passphraseMode === "decrypt"
                           ? "Entschlüsseln"
                           : "Importieren"
@@ -399,6 +391,8 @@ Rectangle {
 
         background: Rectangle {
             color: "white"
+
+
             border.color: "gray"
             border.width: 1
             radius: 8
@@ -406,8 +400,6 @@ Rectangle {
 
         Column {
             anchors.fill: parent
-            anchors.margins: 20
-            spacing: 15
 
             Text {
                 text: "Installed Keys"
@@ -417,7 +409,7 @@ Rectangle {
 
             Text {
                 text: "Count: " + keyList.length
-                font.pixelSize: 24
+                font.pixelSize: 26
                 color: "gray"
             }
 
@@ -428,7 +420,6 @@ Rectangle {
                 height: parent.height - 270
 
                 clip: true
-                spacing: 16
 
                 model: keyList
 
@@ -447,8 +438,6 @@ Rectangle {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
 
-                        anchors.margins: 16
-                        spacing: 8
 
                         Text {
                             width: parent.width
@@ -482,7 +471,7 @@ Rectangle {
                             text: modelData.hasSecretKey
                                   ? "Private key available"
                                   : "Public key only"
-                            font.pixelSize: 18
+                            font.pixelSize: 30
                             color: modelData.hasSecretKey
                                    ? "black"
                                    : "gray"
@@ -492,14 +481,18 @@ Rectangle {
                     Button {
                         id: deleteButton
 
-                        width: 125
-                        height: 50
 
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.rightMargin: 14
 
                         text: "Delete"
+
+                        Component.onCompleted: {
+                            console.log("### KM DELETE ###",
+                                        "width=", width,
+                                        "height=", height,
+                                        "pixelSize=", font.pixelSize)
+                        }
 
                         onClicked: {
                             console.log("### DELETE BUTTON CLICKED ###")
@@ -534,7 +527,7 @@ Rectangle {
                     visible: keyList.length === 0
 
                     text: "No keys installed."
-                    font.pixelSize: 24
+                    font.pixelSize: 26
                     color: "gray"
                 }
             }
@@ -542,12 +535,10 @@ Rectangle {
             Button {
                 id: keyManagerImportButton
                 width: parent.width
-                height: 110
 
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: keyManagementBackButton.top
-                anchors.bottomMargin: 12
 
                 text: "Import Key"
 
@@ -560,7 +551,6 @@ Rectangle {
             Button {
                 id: keyManagerBackButton
                 width: parent.width
-                height: 110
 
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -596,11 +586,12 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             color: "white"
+
+
         }
 
         Item {
             anchors.fill: parent
-            anchors.margins: 24
 
             Rectangle {
                 id: keyManagementPageHeader
@@ -617,9 +608,11 @@ Rectangle {
                     anchors.centerIn: parent
 
                     text: "Key Management"
-                    font.pixelSize: 30
+                    font.pixelSize: 34
                     font.bold: true
                     color: "white"
+
+
                 }
             }
 
@@ -629,7 +622,6 @@ Rectangle {
                 anchors.top: keyManagementPageHeader.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.topMargin: 16
 
                 text: "Installed Keys: " + keyList.length
                 font.pixelSize: 22
@@ -644,17 +636,20 @@ Rectangle {
                 anchors.right: parent.right
                 anchors.bottom: keyManagementImportButton.top
 
-                anchors.topMargin: 12
-                anchors.bottomMargin: 12
 
                 clip: true
-                spacing: 12
 
                 model: keyList
 
                 delegate: Rectangle {
                     width: keyManagementList.width
-                    height: 160
+                    height: 250
+
+                    Component.onCompleted: {
+                        console.log("### KM DELEGATE ###",
+                                    "width=", width,
+                                    "height=", height)
+                    }
 
                     color: "#f3f3f3"
                     border.color: "#cccccc"
@@ -666,9 +661,7 @@ Rectangle {
                         anchors.right: deleteKeyButton.left
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
-                        anchors.margins: 14
 
-                        spacing: 6
 
                         Text {
                             width: parent.width
@@ -677,8 +670,15 @@ Rectangle {
                                   ? modelData.name
                                   : "(no name)"
 
-                            font.pixelSize: 23
+                            font.pixelSize: 44
                             color: "black"
+
+                            Component.onCompleted: {
+                                console.log("### KM NAME ###",
+                                            "width=", width,
+                                            "height=", height,
+                                            "pixelSize=", font.pixelSize)
+                            }
                             elide: Text.ElideRight
                         }
 
@@ -689,8 +689,15 @@ Rectangle {
                                   ? modelData.email
                                   : "(no email)"
 
-                            font.pixelSize: 19
+                            font.pixelSize: 38
                             color: "gray"
+
+                            Component.onCompleted: {
+                                console.log("### KM EMAIL ###",
+                                            "width=", width,
+                                            "height=", height,
+                                            "pixelSize=", font.pixelSize)
+                            }
                             elide: Text.ElideRight
                         }
 
@@ -699,8 +706,15 @@ Rectangle {
 
                             text: "Fingerprint: " + modelData.fingerprint
 
-                            font.pixelSize: 14
+                            font.pixelSize: 28
                             color: "gray"
+
+                            Component.onCompleted: {
+                                console.log("### KM FINGERPRINT ###",
+                                            "width=", width,
+                                            "height=", height,
+                                            "pixelSize=", font.pixelSize)
+                            }
                             elide: Text.ElideMiddle
                         }
 
@@ -709,7 +723,14 @@ Rectangle {
                                   ? "Private key available"
                                   : "Public key only"
 
-                            font.pixelSize: 17
+                            font.pixelSize: 34
+
+                            Component.onCompleted: {
+                                console.log("### KM STATUS ###",
+                                            "width=", width,
+                                            "height=", height,
+                                            "pixelSize=", font.pixelSize)
+                            }
 
                             color: modelData.hasSecretKey
                                    ? "black"
@@ -720,12 +741,9 @@ Rectangle {
                     Button {
                         id: deleteKeyButton
 
-                        width: 120
-                        height: 100
 
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.rightMargin: 12
 
                         text: "Delete"
 
@@ -751,7 +769,7 @@ Rectangle {
                     visible: keyList.length === 0
 
                     text: "No keys installed."
-                    font.pixelSize: 24
+                    font.pixelSize: 26
                     color: "gray"
                 }
             }
@@ -763,12 +781,9 @@ Rectangle {
                 anchors.right: parent.right
                 anchors.bottom: keyManagementBackButton.top
 
-                anchors.bottomMargin: 12
 
-                height: 110
 
                 text: "Import Key"
-                font.pixelSize: 18
 
                 onClicked: {
                     console.log("### KEY MANAGEMENT: IMPORT KEY ###")
@@ -783,10 +798,8 @@ Rectangle {
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
 
-                height: 110
 
                 text: "←  Back"
-                font.pixelSize: 18
 
                 onClicked: {
                     console.log("### KEY MANAGEMENT: BACK ###")
@@ -813,8 +826,6 @@ Rectangle {
         height: 200
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.topMargin: 16
-        anchors.rightMargin: 16
         z: 200
 
         Rectangle {
@@ -855,19 +866,20 @@ Rectangle {
         background: Rectangle {
             radius: 14
             color: "white"
+
+
             border.color: "#cccccc"
             border.width: 1
         }
 
         Column {
             width: parent.width
-            spacing: 8
 
             Text {
                 width: parent.width
                 height: 64
                 text: "GPG Text"
-                font.pixelSize: 30
+                font.pixelSize: 34
                 font.bold: true
                 color: "#333333"
                 verticalAlignment: Text.AlignVCenter
@@ -882,9 +894,7 @@ Rectangle {
 
             Button {
                 width: parent.width
-                height: 100
                 text: "Encrypt / Decrypt"
-                font.pixelSize: 24
 
                 onClicked: {
                     console.log("### MENU: CRYPTO ###")
@@ -895,14 +905,23 @@ Rectangle {
 
             Button {
                 width: parent.width
-                height: 100
                 text: "Key Management"
-                font.pixelSize: 24
 
                 onClicked: {
                     console.log("### MENU: KEY MANAGER ###")
                     mainMenu.close()
                     showKeyManager()
+                }
+            }
+
+            Button {
+                width: parent.width
+                text: "Startseite"
+
+                onClicked: {
+                    console.log("### MENU: STARTSEITE ###")
+                    mainMenu.close()
+                    currentPage = 0
                 }
             }
 
@@ -914,9 +933,7 @@ Rectangle {
 
             Button {
                 width: parent.width
-                height: 100
                 text: "Exit"
-                font.pixelSize: 24
 
                 onClicked: {
                     console.log("### MENU: EXIT ###")
@@ -939,36 +956,36 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             color: "white"
+
+
         }
 
         Column {
             anchors.fill: parent
-            anchors.margins: 24
-            spacing: 20
 
             // Kopfbereich
             Rectangle {
                 width: parent.width
-                height: 90
+                height: 135
                 radius: 12
                 color: "#2c2c2c"
 
                 Column {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.leftMargin: 20
-                    spacing: 3
 
                     Text {
                         text: "GPG Text"
-                        font.pixelSize: 30
+                        font.pixelSize: 51
                         font.bold: true
                         color: "white"
+
+
                     }
 
                     Text {
                         text: "OpenPGP text encryption and decryption"
-                        font.pixelSize: 15
+                        font.pixelSize: 39
                         color: "#dddddd"
                     }
                 }
@@ -977,7 +994,7 @@ Rectangle {
             // Motto
             Rectangle {
                 width: parent.width
-                height: 90
+                height: 135
                 color: "#f3f3f3"
                 border.color: "#cccccc"
                 border.width: 1
@@ -986,12 +1003,11 @@ Rectangle {
                 Column {
                     width: parent.width
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 8
 
                     Text {
                         width: parent.width
                         text: "OpenPGP – Trust through encryption."
-                        font.pixelSize: 22
+                        font.pixelSize: 33
                         font.bold: true
                         color: "#333333"
                         horizontalAlignment: Text.AlignHCenter
@@ -1000,7 +1016,7 @@ Rectangle {
                     Text {
                         width: parent.width
                         text: "Security begins where confidential remains confidential."
-                        font.pixelSize: 15
+                        font.pixelSize: 39
                         font.italic: true
                         color: "#777777"
                         horizontalAlignment: Text.AlignHCenter
@@ -1023,13 +1039,11 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.top: parent.top
-                    anchors.margins: 16
 
-                    spacing: 4
 
                     Text {
                         text: "GPG-Befehle"
-                        font.pixelSize: 24
+                        font.pixelSize: 39
                         font.bold: true
                         font.family: "Monospace"
                         color: "#eeeeee"
@@ -1045,7 +1059,7 @@ Rectangle {
                             + "Decrypt text:\n"
                             + "$ echo \"encrypted text\" | gpg --decrypt"
 
-                        font.pixelSize: 15
+                        font.pixelSize: 39
                         font.family: "Monospace"
                         color: "#66ff66"
                     }
@@ -1060,13 +1074,9 @@ Rectangle {
     Button {
         id: cryptoBackButton
         text: "←  Back"
-        height: 110
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.leftMargin: 5
-        anchors.rightMargin: 5
-        anchors.bottomMargin: 5
         z: 150
         visible: !keyPicker.visible && currentPage === 1
 
@@ -1100,36 +1110,35 @@ Rectangle {
         Column {
             id: cryptoColumn
 
-            width: Math.max(0, cryptoScrollView.width - 24)
+            width: cryptoScrollView.width - 24
             x: 12
 
-            spacing: 16
             topPadding: 16
             bottomPadding: 36
 
             // Kopfbereich -----------------------------------------------------
             Rectangle {
                 width: parent.width
-                height: 86
+                height: 105
                 radius: 12
                 color: "#2c2c2c"
 
                 Column {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.leftMargin: 20
-                    spacing: 3
 
                     Text {
                         text: "GPG Text"
-                        font.pixelSize: 30
+                        font.pixelSize: 34
                         font.bold: true
                         color: "white"
+
+
                     }
 
                     Text {
                         text: "OpenPGP text encryption and decryption"
-                        font.pixelSize: 15
+                        font.pixelSize: 25
                         color: "#dddddd"
                         elide: Text.ElideRight
                         width: cryptoColumn.width - 40
@@ -1141,7 +1150,7 @@ Rectangle {
             // Schlüssel ------------------------------------------------------
             Text {
                 text: "KEY"
-                font.pixelSize: 14
+                font.pixelSize: 16
                 font.bold: true
                 color: "#666666"
                 topPadding: 4
@@ -1149,7 +1158,7 @@ Rectangle {
 
             Rectangle {
                 width: parent.width
-                height: selectedFingerprint === "" ? 124 : 164
+                height: selectedFingerprint === "" ? 145 : 195
                 radius: 12
                 color: "#f3f3f3"
                 border.color: selectedFingerprint === "" ? "#cccccc" : "#d7d7d7"
@@ -1157,12 +1166,10 @@ Rectangle {
 
                 Column {
                     anchors.fill: parent
-                    anchors.margins: 14
-                    spacing: 8
 
                     Text {
                         text: "Encryption Key"
-                        font.pixelSize: 15
+                        font.pixelSize: 25
                         color: "#666666"
                     }
 
@@ -1170,7 +1177,6 @@ Rectangle {
                         id: keyComboBox
 
                         width: parent.width
-                        height: 58
                         z: 200
 
                         model: keyList
@@ -1191,7 +1197,6 @@ Rectangle {
                                         : ""))
                                     : "Bitte Select Key ..."
 
-                        font.pixelSize: 18
 
                         delegate: ItemDelegate {
                             width: keyComboBox.width
@@ -1199,14 +1204,11 @@ Rectangle {
 
                             contentItem: Column {
                                 anchors.fill: parent
-                                anchors.margins: 10
-                                spacing: 2
 
                                 Text {
                                     text: modelData.name !== ""
                                           ? modelData.name
                                           : "(no name)"
-                                    font.pixelSize: 18
                                     font.bold: true
                                     color: "black"
                                     elide: Text.ElideRight
@@ -1217,7 +1219,6 @@ Rectangle {
                                     text: modelData.email !== ""
                                           ? modelData.email
                                           : "(no email)"
-                                    font.pixelSize: 15
                                     color: "#666666"
                                     elide: Text.ElideRight
                                     width: parent.width
@@ -1270,7 +1271,7 @@ Rectangle {
                             var email = key.email !== "" ? " <" + key.email + ">" : ""
                             return "✓ " + name + email
                         }
-                        font.pixelSize: 15
+                        font.pixelSize: 25
                         font.bold: true
                         color: "#333333"
                         elide: Text.ElideRight
@@ -1282,7 +1283,7 @@ Rectangle {
                         text: selectedFingerprint === ""
                               ? ""
                               : "Fingerprint: " + selectedFingerprint
-                        font.pixelSize: 13
+                        font.pixelSize: 32
                         color: "#777777"
                         elide: Text.ElideMiddle
                     }
@@ -1290,18 +1291,38 @@ Rectangle {
             }
 
 
+            Component.onCompleted: {
+                console.log("========== CRYPTO LAYOUT DEBUG ==========")
+                console.log("ROOT width =", rootRectangle.width)
+                console.log("ROOT height =", rootRectangle.height)
+                console.log("SCROLL width =", cryptoScrollView.width)
+                console.log("SCROLL height =", cryptoScrollView.height)
+                console.log("SCROLL availableWidth =", cryptoScrollView.availableWidth)
+                console.log("SCROLL contentWidth =", cryptoScrollView.contentWidth)
+                console.log("COLUMN width =", cryptoColumn.width)
+                console.log("COLUMN height =", cryptoColumn.height)
+                console.log("COLUMN parent width =", parent.width)
+                console.log("INPUT CONTAINER width =", inputContainer.width)
+                console.log("INPUT CONTAINER height =", inputContainer.height)
+                console.log("INPUT TEXT width =", inputText.width)
+                console.log("INPUT TEXT height =", inputText.height)
+                console.log("==========================================")
+            }
+
             // Eingabe --------------------------------------------------------
             Text {
                 text: "INPUT"
-                font.pixelSize: 14
+                font.pixelSize: 32
+                Component.onCompleted: console.log("### CRYPTO INPUT LABEL ###", "width=", width, "height=", height, "pixelSize=", font.pixelSize)
                 font.bold: true
                 color: "#666666"
                 topPadding: 4
             }
 
             Rectangle {
+                id: inputContainer
                 width: parent.width
-                height: 220
+                height: 600
                 radius: 12
                 color: "#fafafa"
                 border.color: "#bdbdbd"
@@ -1311,9 +1332,8 @@ Rectangle {
                     id: inputText
 
                     anchors.fill: parent
-                    anchors.margins: 12
 
-                    font.pixelSize: 24
+                    Component.onCompleted: console.log("### CRYPTO INPUT TEXTAREA ###", "width=", width, "height=", height, "pixelSize=", font.pixelSize)
                     wrapMode: TextArea.Wrap
                     placeholderText: "Enter plaintext or encrypted text ..."
                     color: "black"
@@ -1335,13 +1355,10 @@ Rectangle {
             // Hauptaktionen --------------------------------------------------
             Row {
                 width: parent.width
-                spacing: 12
 
                 Button {
                     width: (parent.width - parent.spacing) / 2
-                    height: 128
                     text: "🔒  Verschlüsseln"
-                    font.pixelSize: 18
 
                     onClicked: {
                         console.log("### ENCODE BUTTON ###")
@@ -1351,9 +1368,7 @@ Rectangle {
 
                 Button {
                     width: (parent.width - parent.spacing) / 2
-                    height: 128
                     text: "🔓  Entschlüsseln"
-                    font.pixelSize: 18
 
                     onClicked: {
                         console.log("### DECODE BUTTON ###")
@@ -1364,13 +1379,10 @@ Rectangle {
 
             Row {
                 width: parent.width
-                spacing: 12
 
                 Button {
                     width: (parent.width - 24) / 3
-                    height: 96
                     text: "Copy"
-                    font.pixelSize: 18
 
                     onClicked: {
                         inputText.selectAll()
@@ -1385,9 +1397,7 @@ Rectangle {
 
                 Button {
                     width: (parent.width - 24) / 3
-                    height: 96
                     text: "Paste"
-                    font.pixelSize: 18
 
                     onClicked: {
                         console.log("### INPUT PASTE BUTTON ###")
@@ -1399,9 +1409,7 @@ Rectangle {
 
                 Button {
                     width: (parent.width - 24) / 3
-                    height: 96
                     text: "Clear"
-                    font.pixelSize: 18
 
                     onClicked: {
                         inputText.clear()
@@ -1413,7 +1421,7 @@ Rectangle {
             // Ausgabe --------------------------------------------------------
             Text {
                 text: "OUTPUT"
-                font.pixelSize: 14
+                font.pixelSize: 21
                 font.bold: true
                 color: "#666666"
                 topPadding: 8
@@ -1421,7 +1429,7 @@ Rectangle {
 
             Rectangle {
                 width: parent.width
-                height: 220
+                height: 300
                 radius: 12
                 color: "#f1f1f1"
                 border.color: "#c5c5c5"
@@ -1431,9 +1439,7 @@ Rectangle {
                     id: output
 
                     anchors.fill: parent
-                    anchors.margins: 12
 
-                    font.pixelSize: 24
                     wrapMode: TextArea.Wrap
                     readOnly: true
                     selectByMouse: true
@@ -1454,13 +1460,10 @@ Rectangle {
 
             Row {
                 width: parent.width
-                spacing: 8
 
                 Button {
                     width: (parent.width - parent.spacing * 2) / 3
-                    height: 48
                     text: "Copy"
-                    font.pixelSize: 15
 
                     onClicked: {
                         output.selectAll()
@@ -1475,9 +1478,7 @@ Rectangle {
 
                 Button {
                     width: (parent.width - parent.spacing * 2) / 3
-                    height: 48
                     text: "Paste"
-                    font.pixelSize: 15
 
                     onClicked: {
                         console.log("### OUTPUT PASTE BUTTON ###")
@@ -1489,9 +1490,7 @@ Rectangle {
 
                 Button {
                     width: (parent.width - parent.spacing * 2) / 3
-                    height: 48
                     text: "Clear"
-                    font.pixelSize: 15
 
                     onClicked: {
                         output.clear()
@@ -1513,11 +1512,9 @@ Rectangle {
             margins: 30
         }
 
-        spacing: 20
 
         Button {
             width: parent.width
-            height: 60
 
             text: "Import Key"
 
@@ -1529,7 +1526,6 @@ Rectangle {
 
         Button {
             width: parent.width
-            height: 60
 
             text: "Öffentliche Schlüssel"
 
@@ -1546,7 +1542,6 @@ Rectangle {
 
         Button {
             width: parent.width
-            height: 60
 
             text: "Manage Keys"
 
@@ -1557,7 +1552,4 @@ Rectangle {
         }
     }
 
-    Component.onCompleted: {
-        console.log("### GPG BACKEND UI START ###")
-    }
 }
