@@ -538,7 +538,7 @@ Rectangle {
 
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.bottom: keyManagementBackButton.top
+                anchors.bottom: keyManagerBackButton.top
 
                 text: "Import Key"
 
@@ -1100,8 +1100,6 @@ Rectangle {
             left: parent.left
             right: parent.right
             bottom: cryptoBackButton.top
-
-            margins: 0
         }
 
         clip: true
@@ -1110,7 +1108,7 @@ Rectangle {
         Column {
             id: cryptoColumn
 
-            width: cryptoScrollView.width - 24
+            width: Math.max(0, cryptoScrollView.width - 24)
             x: 12
 
             topPadding: 16
@@ -1293,8 +1291,8 @@ Rectangle {
 
             Component.onCompleted: {
                 console.log("========== CRYPTO LAYOUT DEBUG ==========")
-                console.log("ROOT width =", rootRectangle.width)
-                console.log("ROOT height =", rootRectangle.height)
+                console.log("ROOT width =", parent.width)
+                console.log("ROOT height =", parent.height)
                 console.log("SCROLL width =", cryptoScrollView.width)
                 console.log("SCROLL height =", cryptoScrollView.height)
                 console.log("SCROLL availableWidth =", cryptoScrollView.availableWidth)
@@ -1435,24 +1433,33 @@ Rectangle {
                 border.color: "#c5c5c5"
                 border.width: 1
 
-                TextArea {
-                    id: output
-
+                ScrollView {
                     anchors.fill: parent
+                    anchors.margins: 8
 
-                    wrapMode: TextArea.Wrap
-                    readOnly: true
-                    selectByMouse: true
-                    color: "black"
-                    background: null
+                    clip: true
 
-                    Keys.onPressed: {
-                        if ((event.modifiers & Qt.ControlModifier) &&
-                            event.key === Qt.Key_C) {
+                    ScrollBar.vertical.policy: ScrollBar.AsNeeded
+                    ScrollBar.horizontal.policy: ScrollBar.AsNeeded
 
-                            copy()
-                            event.accepted = true
-                            console.log("### OUTPUT COPIED ###")
+                    TextArea {
+                        id: output
+
+                        width: Math.max(parent.width, implicitWidth)
+                        wrapMode: TextArea.Wrap
+                        readOnly: true
+                        selectByMouse: true
+                        color: "black"
+                        background: null
+
+                        Keys.onPressed: {
+                            if ((event.modifiers & Qt.ControlModifier) &&
+                                event.key === Qt.Key_C) {
+
+                                copy()
+                                event.accepted = true
+                                console.log("### OUTPUT COPIED ###")
+                            }
                         }
                     }
                 }
