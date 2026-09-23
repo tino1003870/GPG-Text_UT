@@ -67,7 +67,6 @@ For desktop testing:
     ├── GpgBackend.cpp
     ├── GpgBackend.h
     ├── clickable.yaml
-    ├── gpg-text.apparmor
     ├── gpg-text-contenthub.json
     ├── gpg-text.desktop
     ├── gpg.rules
