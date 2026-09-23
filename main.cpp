@@ -7,6 +7,7 @@
 #include <QScreen>
 
 #include "GpgBackend.h"
+#include <QStandardPaths>
 
 int main(int argc, char *argv[])
 {
@@ -32,6 +33,9 @@ int main(int argc, char *argv[])
         qDebug() << "### DEVICE PIXEL RATIO ###"
                  << screen->devicePixelRatio();
     }
+
+    qDebug() << "### RUNTIME PATH ###" << qEnvironmentVariable("PATH");
+    qDebug() << "### GPG FOUND ###" << QStandardPaths::findExecutable("gpg");
 
     GpgBackend gpgBackend;
 

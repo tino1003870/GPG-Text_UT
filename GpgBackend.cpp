@@ -9,6 +9,23 @@
 #include <QUrl>
 #include <QSet>
 #include <QDebug>
+#include <QStandardPaths>
+
+static const QString GPG_PROGRAM = QStringLiteral("gpg");
+
+
+static void debugGpgPath()
+{
+    qDebug() << "### GPG PROGRAM ###" << GPG_PROGRAM;
+    qDebug() << "### GPG PATH ENV ###" << qEnvironmentVariable("PATH");
+
+    const QString resolved = QStandardPaths::findExecutable(GPG_PROGRAM);
+
+    if (resolved.isEmpty())
+        qDebug() << "### GPG FOUND ### NO";
+    else
+        qDebug() << "### GPG FOUND ###" << resolved;
+}
 
 namespace
 {
@@ -57,6 +74,7 @@ QString formatDate(const QString &timestamp)
 GpgBackend::GpgBackend(QObject *parent)
     : QObject(parent)
 {
+    debugGpgPath();
 }
 
 QString GpgBackend::testGpg()
@@ -65,7 +83,7 @@ QString GpgBackend::testGpg()
 
     QProcess process;
 
-    process.setProgram("/usr/bin/gpg");
+    process.setProgram(GPG_PROGRAM);
     process.setArguments(QStringList()
                          << "--version");
 
@@ -131,7 +149,7 @@ QString GpgBackend::importKey(const QString &filePath,
 
     QProcess process;
 
-    process.setProgram("/usr/bin/gpg");
+    process.setProgram(GPG_PROGRAM);
 
     process.setArguments(QStringList()
                          << "--batch"
@@ -232,7 +250,7 @@ QString GpgBackend::deleteKey(const QString &fingerprint)
 
     QProcess checkSecret;
 
-    checkSecret.setProgram("/usr/bin/gpg");
+    checkSecret.setProgram(GPG_PROGRAM);
     checkSecret.setArguments(QStringList()
                              << "--batch"
                              << "--list-secret-keys"
@@ -292,7 +310,7 @@ QString GpgBackend::deleteKey(const QString &fingerprint)
 
         QProcess secretDelete;
 
-        secretDelete.setProgram("/usr/bin/gpg");
+        secretDelete.setProgram(GPG_PROGRAM);
         secretDelete.setArguments(QStringList()
                                   << "--batch"
                                   << "--yes"
@@ -356,7 +374,7 @@ QString GpgBackend::deleteKey(const QString &fingerprint)
 
     QProcess publicDelete;
 
-    publicDelete.setProgram("/usr/bin/gpg");
+    publicDelete.setProgram(GPG_PROGRAM);
     publicDelete.setArguments(QStringList()
                               << "--batch"
                               << "--yes"
@@ -479,7 +497,7 @@ QString GpgBackend::encryptText(const QString &text,
 
     QProcess process;
 
-    process.setProgram("/usr/bin/gpg");
+    process.setProgram(GPG_PROGRAM);
 
     process.setArguments(QStringList()
                          << "--batch"
@@ -568,7 +586,7 @@ QString GpgBackend::decryptText(const QString &text, const QString &passphrase)
 
     QProcess process;
 
-    process.setProgram("/usr/bin/gpg");
+    process.setProgram(GPG_PROGRAM);
 
     process.setArguments(QStringList()
                          << "--batch"
@@ -652,7 +670,7 @@ QStringList GpgBackend::listSecretKeyIds()
 
     QProcess process;
 
-    process.start("/usr/bin/gpg",
+    process.start(GPG_PROGRAM,
                   QStringList()
                   << "--list-secret-keys"
                   << "--with-colons");
@@ -702,7 +720,7 @@ QVariantList GpgBackend::listPublicKeys()
 
     QProcess process;
 
-    process.start("/usr/bin/gpg",
+    process.start(GPG_PROGRAM,
                   QStringList()
                   << "--list-keys"
                   << "--with-colons");

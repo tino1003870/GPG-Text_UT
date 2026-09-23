@@ -2,5 +2,10 @@ clickable_minimum_required: 8.0.0
 
 builder: cmake
 
-skip_review: true
+dependencies_target:
+  - gpg
 
+install_bin:
+  - /usr/bin/gpg
+
+skip_review: true
