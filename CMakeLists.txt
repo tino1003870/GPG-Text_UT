@@ -38,6 +38,7 @@ install(FILES
 
 install(FILES
     manifest.json
+    gpg-text.apparmor
     gpg-text.desktop
     gpg-text-contenthub.json
     DESTINATION .

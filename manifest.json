@@ -7,7 +7,8 @@
     "hooks": {
         "gpg-text": {
             "desktop": "gpg-text.desktop",
-            "content-hub": "gpg-text-contenthub.json"
+            "content-hub": "gpg-text-contenthub.json",
+            "apparmor": "gpg-text.apparmor"
         }
     },
 
