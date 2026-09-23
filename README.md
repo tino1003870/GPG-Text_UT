@@ -12,7 +12,6 @@ The application is designed specifically for Ubuntu Touch and provides a simple 
 - Display available GPG keys
 - Work with public and private keys
 - Integration with Ubuntu Touch Content Hub
-- Suitable for use together with mail applications such as Dekko
 
 ## Ubuntu Touch integration
 
@@ -29,34 +28,15 @@ The intended key-import workflow is:
 
 This approach is important because desktop Qt file dialogs are not the appropriate mechanism for normal Ubuntu Touch application integration.
 
-## Dekko integration
+## GPG Runtime
 
-GPG Text was developed partly to investigate and provide a possible GPG backend/workflow for Ubuntu Touch mail applications such as Dekko.
+GPG Text uses a bundled GPG executable that is included in the Click package.
 
-The application demonstrates that GPG operations can be performed from a native Ubuntu Touch application and that files can be exchanged through Content Hub.
+The GPG package is declared as a Click build dependency and the `gpg` executable is installed into the application package. The application therefore does not depend on a system-wide GPG installation on the Ubuntu Touch device.
 
-During development, several Content Hub API operations were tested. Content Hub itself is available, but some operations require additional AppArmor permissions. In particular, the following operations were found to be restricted by the application security policy:
+At runtime, GPG is started as `gpg` and resolved through the application's runtime `PATH`.
 
-- `DefaultSourceForType`
-- `RegisterImportExportHandler`
-- `CreateImportFromPeer`
-- `HasPending`
-
-`ContentTransfer` was also found not to be a valid solution for the tested workflow.
-
-These findings may be useful for developers implementing Content Hub based mail integration on Ubuntu Touch.
-
-## Security / AppArmor
-
-The current application uses an AppArmor configuration based on the Ubuntu Touch `unconfined` template.
-
-The `unconfined` configuration is intentional for the current development version because the application needs to perform local GPG operations and access the relevant user files.
-
-As a consequence, the standard Click review reports:
-
-    (NEEDS REVIEW) "unconfined" not allowed
-
-This is a known limitation of the current package and requires manual review for OpenStore publication.
+This makes the GPG functionality self-contained within the application package and avoids relying on the availability or location of a system-installed GPG executable.
 
 ## Building
 
